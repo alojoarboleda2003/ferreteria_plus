@@ -15,7 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class FormClientes {
+public class FormClientes extends JFrame{
+
     private JPanel Fclientes;
     private JTable table1;
     private JTextField textField1;
@@ -28,10 +29,20 @@ public class FormClientes {
     private JButton ACTUALIZARButton;
     int filas = 0;
 
+
     ClienteDAO clienteDAO = new ClienteDAO();
 
     public FormClientes() {
+        setContentPane(Fclientes);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1006, 400);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);  // Centra la ventana en la pantalla
+
         obtener_datos();
+        textField1.setEnabled(false);
+
+
         GUARDARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,6 +105,7 @@ public class FormClientes {
         });
     }
 
+
         public void clear() {
             textField1.setText("");
             textField2.setText("");
@@ -138,8 +150,9 @@ public class FormClientes {
         }
 
 
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("cliente");
+        JFrame frame = new JFrame("FormClientes");
         frame.setContentPane(new FormClientes().Fclientes);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -147,4 +160,6 @@ public class FormClientes {
         frame.setSize(1006, 400);
         frame.setResizable(false);
     }
+
+
 }
