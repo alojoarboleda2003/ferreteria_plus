@@ -25,6 +25,9 @@ public class InicioFerreteria {
                     FormClientes formClientes = new FormClientes();
                     formClientes.setVisible(true);
 
+                } else if (seleccion != null && seleccion.equals("Proveedores")) {
+                    FormProveedor formProveedor = new FormProveedor();
+                    formProveedor.setVisible(true);
                 }
 
 

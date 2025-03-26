@@ -1,7 +1,9 @@
 package formulariosGUI;
-import DAO.EmpleadoDAO;
+
+import DAO.ProveedorDAO;
 import conexionBD.ConexionBD;
-import modelos.Empleado;
+import modelos.Cliente;
+import modelos.Proveedor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,47 +16,69 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class FormEmpleados {
-    private JPanel Fempleados;
+public class FormProveedor extends JFrame {
+    private JPanel Fproveedor;
     private JTable table1;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
     private JTextField textField4;
-    private JTextField textField5;
-    private JButton ELIMINARButton;
     private JButton GUARDARButton;
+    private JButton ELIMINARButton;
     private JButton ACTUALIZARButton;
     int filas = 0;
 
-    EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+    ProveedorDAO proveedorDAO = new ProveedorDAO();
 
-    public FormEmpleados() {
+    public FormProveedor() {
+        setContentPane(Fproveedor);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1006, 400);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);
+
         obtener_datos();
+        textField1.setEnabled(false);
+
         GUARDARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String nombre = textField2.getText();
+                String contacto = textField3.getText();
+                String producto_sum = textField4.getText();
 
+
+                Proveedor proveedor = new Proveedor(0,nombre,contacto,producto_sum);
+                proveedorDAO.agregar(proveedor);
+                obtener_datos();
+                clear();
 
             }
         });
         ACTUALIZARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String nombre = textField2.getText();
+                String contacto = textField3.getText();
+                String producto_sum = textField4.getText();
+                int id_proveedor = Integer.parseInt(textField1.getText());
 
+                Proveedor proveedor = new Proveedor(id_proveedor, nombre, contacto, producto_sum);
+                proveedorDAO.actualizar(proveedor);
+                obtener_datos();
+                clear();
 
             }
         });
         ELIMINARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(textField1.getText());
-                empleadoDAO.eliminar(id);
+                int id_proveedor = Integer.parseInt(textField1.getText());
+                proveedorDAO.eliminar(id_proveedor);
                 obtener_datos();
                 clear();
+
             }
-
-
         });
 
         table1.addMouseListener(new MouseAdapter() {
@@ -68,7 +92,7 @@ public class FormEmpleados {
                     textField2.setText((String) table1.getValueAt(selectFila, 1));
                     textField3.setText((String) table1.getValueAt(selectFila, 2));
                     textField4.setText((String) table1.getValueAt(selectFila, 3));
-                    textField5.setText((String) table1.getValueAt(selectFila, 4));
+
 
                     filas = selectFila;
                 }
@@ -81,7 +105,7 @@ public class FormEmpleados {
         textField2.setText("");
         textField3.setText("");
         textField4.setText("");
-        textField5.setText("");
+
     }
 
     ConexionBD conexionBD = new ConexionBD();
@@ -90,18 +114,19 @@ public class FormEmpleados {
     public void obtener_datos() {
         DefaultTableModel model = new DefaultTableModel();
 
-        model.addColumn("ID Empleado");
+        model.addColumn("ID Proveedor");
         model.addColumn("Nombre");
-        model.addColumn("Cargo");
-        model.addColumn("Salario");
+        model.addColumn("Contacto");
+        model.addColumn("Producto Suministrado");
+
 
         table1.setModel(model);
-        String[] dato = new String[5];
+        String[] dato = new String[4];
         Connection con = conexionBD.getConnection();
 
         try {
             Statement start = con.createStatement();
-            String query = "SELECT * FROM empleado";
+            String query = "SELECT * FROM proveedor";
             ResultSet rs = start.executeQuery(query);
 
             while (rs.next()) {
@@ -109,7 +134,7 @@ public class FormEmpleados {
                 dato[1] = rs.getString(2);
                 dato[2] = rs.getString(3);
                 dato[3] = rs.getString(4);
-                dato[4] = rs.getString(5);
+
                 model.addRow(dato);
             }
         } catch (SQLException e) {
@@ -118,15 +143,15 @@ public class FormEmpleados {
 
     }
 
-
     public static void main(String[] args) {
-        JFrame frame = new JFrame("empleado");
-        frame.setContentPane(new FormEmpleados().Fempleados);
+        JFrame frame = new JFrame("FormProveedor");
+        frame.setContentPane(new FormProveedor().Fproveedor);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(1006, 400);
+        frame.setSize(900, 300);
         frame.setResizable(false);
     }
 }
+
 

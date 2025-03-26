@@ -1,29 +1,107 @@
 package DAO;
 
+import conexionBD.ConexionBD;
+import modelos.Cliente;
+import modelos.Proveedor;
+
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class ProveedorDAO
 {
-    public void insertarProveedor()
+    private ConexionBD conexionBD = new ConexionBD();
+
+    public void agregar(Proveedor proveedor)
     {
-        System.out.println("Insertando proveedor...");
+        Connection con = conexionBD.getConnection();
+
+        String query = "INSERT INTO proveedor (nombre, contacto, producto_sum) VALUES (?,?,?)";
+
+        try
+        {
+            PreparedStatement pst = con.prepareStatement(query);
+
+            pst.setString(1,proveedor.getNombre());
+            pst.setString(2,proveedor.getContacto());
+            pst.setString(3,proveedor.getProducto_sum());
+
+
+            int resultado = pst.executeUpdate();
+
+            if (resultado > 0)
+            {
+                JOptionPane.showMessageDialog(null,"proveedor Agregado");
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"Error al ingresar al Proveedor ");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
-    public void eliminarProveedor()
+    public void eliminar(int id_proveedor)
     {
-        System.out.println("Eliminando proveedor...");
+        Connection con = conexionBD.getConnection();
+
+        String query = "DELETE FROM proveedor WHERE id_proveedor=?";
+
+        try
+        {
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.setInt(1,id_proveedor);
+
+            int resultado = pst.executeUpdate();
+
+            if (resultado > 0)
+            {
+                JOptionPane.showMessageDialog(null,"Proveedor eliminado ");
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"error al eliminar Proveedor");
+            }
+        }
+
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void actualizarProveedor()
+    public void actualizar(Proveedor proveedor)
     {
-        System.out.println("Actualizando proveedor...");
-    }
+        Connection con = conexionBD.getConnection();
+        String query = "UPDATE proveedor set nombre = ?, contacto = ?, producto_sum = ? WHERE id_proveedor = ?";
 
-    public void buscarProveedor()
-    {
-        System.out.println("Buscando proveedor...");
-    }
+        try
+        {
+            PreparedStatement pst = con.prepareStatement(query);
 
-    public void listarProveedores()
-    {
-        System.out.println("Listando proveedores...");
+            pst.setString(1,proveedor.getNombre());
+            pst.setString(2,proveedor.getContacto());
+            pst.setString(3,proveedor.getProducto_sum());
+            pst.setInt(4,proveedor.getId_proveedor());
+
+
+            int resultado = pst.executeUpdate();
+
+            if (resultado > 0)
+            {
+                JOptionPane.showMessageDialog(null,"Proveedor actualizado");
+            }else
+            {
+                JOptionPane.showMessageDialog(null,"error al modificar");
+            }
+        }
+
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
