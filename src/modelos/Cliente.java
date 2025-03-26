@@ -4,28 +4,28 @@ public class Cliente
 {
     private int id_cliente;
     private String nombre;
-    private String telefono;
+    private double telefono;
     private String direccion;
     private String correo;
 
     // Constructor
-    public Cliente(int id, String nombre, String telefono, String direccion, String correo)
+    public Cliente(int id_cliente, String nombre, double telefono, String direccion, String correo)
     {
-        this.id_cliente = id;
+        this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direccion;
         this.correo = correo;
     }
 
-    public int getId()
+    public int getId_cliente()
     {
         return id_cliente;
     }
 
-    public void setId(int id)
+    public void setId(int id_cliente)
     {
-        this.id_cliente = id;
+        this.id_cliente = id_cliente;
     }
 
     public String getNombre()
@@ -38,12 +38,12 @@ public class Cliente
         this.nombre = nombre;
     }
 
-    public String getTelefono()
+    public double getTelefono()
     {
         return telefono;
     }
 
-    public void setTelefono(String telefono)
+    public void setTelefono(double telefono)
     {
         this.telefono = telefono;
     }

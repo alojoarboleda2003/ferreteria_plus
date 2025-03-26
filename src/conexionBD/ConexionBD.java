@@ -13,7 +13,7 @@ public class ConexionBD {
         try
         {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ferreteria","root", "");
-            JOptionPane.showMessageDialog(null,"conexion exitosa");
+
         }
         catch (Exception e)
         {
@@ -22,8 +22,5 @@ public class ConexionBD {
         return con;
     }
 
-    public static void main(String[] args) {
-        ConexionBD conexionBD = new ConexionBD();
-        conexionBD.getConnection();
-    }
+
 }
