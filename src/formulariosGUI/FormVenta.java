@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.Locale;
 
-public class FormVenta {
+public class FormVenta  extends JFrame{
     private JTextField buscador;
     private JButton clickParaSeleccionarButton;
     private JTable datosproducto;
@@ -45,6 +45,14 @@ public class FormVenta {
     InventarioDAO inventarioDAO = new InventarioDAO();
 
     public FormVenta() {
+
+        setContentPane(Fventas);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1006, 600);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);
+
+
         //inicializamos las columnas de productos ventas aca porque sino se repiten cada vez que agreguemos un producto
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID Producto");

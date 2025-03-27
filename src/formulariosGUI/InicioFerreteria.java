@@ -39,6 +39,13 @@ public class InicioFerreteria {
                 System.exit(0);
             }
         });
+        venderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormVenta formVenta = new FormVenta();
+                formVenta.setVisible(true);
+            }
+        });
     }
 
     public static void main(String[] args) {
