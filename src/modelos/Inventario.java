@@ -22,6 +22,11 @@ public class Inventario
         this.stock = stock;
     }
 
+
+    public Inventario(double precio) {
+
+    }
+
     public Inventario(String nombres) {
     }
 

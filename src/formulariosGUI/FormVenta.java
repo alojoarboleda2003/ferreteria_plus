@@ -8,10 +8,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.*;
+import java.util.Locale;
 
 public class FormVenta {
     private JTextField buscador;
@@ -23,10 +23,10 @@ public class FormVenta {
     private JTextField textField4;
     private JSpinner spinner1;
     private JPanel preciocantidad;
-    private JTextField textField5;
+    private JTextField cant_venta;
     private JButton agregarProductoButton;
     private JPanel Fventas;
-    private JTextField textField6;
+    private JTextField subtotal;
     private JButton eliminarButton;
     private JTable productosventa;
     private JTextField textField7;
@@ -34,6 +34,9 @@ public class FormVenta {
     private JButton cobrarButton;
     private JScrollPane buscarproducto;
     private JScrollPane datoventa;
+    private JTextField textField1;
+    private JPanel producto_elegido;
+    int filas = 0;
 
     InventarioDAO inventarioDAO = new InventarioDAO();
 
@@ -65,6 +68,13 @@ public class FormVenta {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                String nombres = agregarProductoButton.getText();
+                Inventario inventario = new Inventario(nombres);
+                inventario.setNombres(nombres);
+                agregar_datos_p();
+                clear();
+
+
             }
         });
         eliminarButton.addActionListener(new ActionListener() {
@@ -91,6 +101,65 @@ public class FormVenta {
 
             }
         });
+
+        datosproducto.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int selectFila = datosproducto.getSelectedRow();
+
+                if (selectFila >= 0) {
+                    textField2.setText((String) datosproducto.getValueAt(selectFila, 0));
+                    textField3.setText((String) datosproducto.getValueAt(selectFila, 1));
+                    textField4.setText((String) datosproducto.getValueAt(selectFila, 2));
+                    textField1.setText((String) datosproducto.getValueAt(selectFila, 3));
+
+
+                    filas = selectFila;
+                }
+            }
+        });
+        cant_venta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                double precio = Double.parseDouble(cant_venta.getText());
+
+                // Crear el inventario con el precio
+                Inventario inventario = new Inventario(precio);
+                inventario.setNombres(String.valueOf(precio));
+
+
+                psubtotal();
+
+            }
+
+
+
+
+        });
+        subtotal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                psubtotal();
+
+
+
+            }
+        });
+
+    }
+
+    public void clear() {
+        textField2.setText("");
+        textField3.setText("");
+        textField4.setText("");
+        textField1.setText("");
+        cant_venta.setText("");
+        subtotal.setText("");
+
     }
 
 
@@ -127,6 +196,59 @@ public class FormVenta {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void agregar_datos_p() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("Nombre");
+        model.addColumn("Cantidad Venta");
+        model.addColumn("SubTotal");
+
+        productosventa.setModel(model);
+        String[] dato = new String[3];
+        Connection con = conexionBD.getConnection();
+
+        try {
+            // Usamos PreparedStatement para prevenir problemas con valores dinámicos
+            String query = "SELECT nombres FROM inventario WHERE nombres = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+
+            String nombreProductoSeleccionado = textField3.getText();
+            pstmt.setString(1, nombreProductoSeleccionado);
+
+            // Ejecutamos la consulta
+            ResultSet rs = pstmt.executeQuery();
+
+            String cantidad = cant_venta.getText();
+            String subtotatl = subtotal.getText();
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = cantidad;
+                dato[2] = subtotatl;
+
+                model.addRow(dato);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public  void psubtotal(){
+
+        double precio = Double.parseDouble(textField4.getText());
+        Inventario inventario = new Inventario(precio);
+        int cantidad = Integer.parseInt(cant_venta.getText());
+
+        double total = precio * cantidad;
+
+        subtotal.setText(String.valueOf(total));
+
 
     }
 
