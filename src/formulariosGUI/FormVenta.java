@@ -29,7 +29,7 @@ public class FormVenta {
     private JTextField subtotal;
     private JButton eliminarButton;
     private JTable productosventa;
-    private JTextField textField7;
+
     private JTextField textField8;
     private JButton cobrarButton;
     private JScrollPane buscarproducto;
@@ -37,10 +37,24 @@ public class FormVenta {
     private JTextField textField1;
     private JPanel producto_elegido;
     int filas = 0;
+    double totalm = 0;
+    double IVA = 0.19;
+
+
 
     InventarioDAO inventarioDAO = new InventarioDAO();
 
     public FormVenta() {
+        //inicializamos las columnas de productos ventas aca porque sino se repiten cada vez que agreguemos un producto
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Producto");
+        model.addColumn("Nombre");
+        model.addColumn("Cantidad Venta");
+        model.addColumn("SubTotal");
+        productosventa.setModel(model);
+
+        //fin
+
         buscador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,15 +94,28 @@ public class FormVenta {
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int selectedRow = productosventa.getSelectedRow();
 
-            }
-        });
-        textField7.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                if (selectedRow >= 0) {
+                    // Confirmar la acción de eliminación
+                    int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este producto?",
+                            "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        // Eliminar la fila de la tabla
+                        DefaultTableModel model = (DefaultTableModel) productosventa.getModel();
+                        model.removeRow(selectedRow); // Elimina la fila seleccionada
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún producto para eliminar.");
+                }
             }
+
+
+
         });
+        
         textField8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -200,23 +227,21 @@ public class FormVenta {
     }
 
     public void agregar_datos_p() {
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = (DefaultTableModel) productosventa.getModel();
 
-        model.addColumn("Nombre");
-        model.addColumn("Cantidad Venta");
-        model.addColumn("SubTotal");
+
 
         productosventa.setModel(model);
-        String[] dato = new String[3];
+        String[] dato = new String[4];
         Connection con = conexionBD.getConnection();
 
         try {
             // Usamos PreparedStatement para prevenir problemas con valores dinámicos
-            String query = "SELECT nombres FROM inventario WHERE nombres = ?";
+            String query = "SELECT id_inventario, nombres FROM inventario WHERE id_inventario = ?";
             PreparedStatement pstmt = con.prepareStatement(query);
 
 
-            String nombreProductoSeleccionado = textField3.getText();
+            String nombreProductoSeleccionado = textField2.getText();
             pstmt.setString(1, nombreProductoSeleccionado);
 
             // Ejecutamos la consulta
@@ -227,8 +252,9 @@ public class FormVenta {
 
             while (rs.next()) {
                 dato[0] = rs.getString(1);
-                dato[1] = cantidad;
-                dato[2] = subtotatl;
+                dato[1] = rs.getString(2);
+                dato[2] = cantidad;
+                dato[3] = subtotatl;
 
                 model.addRow(dato);
             }
@@ -245,9 +271,16 @@ public class FormVenta {
         Inventario inventario = new Inventario(precio);
         int cantidad = Integer.parseInt(cant_venta.getText());
 
-        double total = precio * cantidad;
+        double totalr = precio * cantidad;
+        double ivatotal = totalr * IVA;
+        double totalconivan = totalr + ivatotal;
 
-        subtotal.setText(String.valueOf(total));
+
+
+
+        subtotal.setText(String.valueOf(totalr));
+        totalm += totalconivan;
+        textField8.setText(String.valueOf(totalm));
 
 
     }
