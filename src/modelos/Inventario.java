@@ -4,92 +4,80 @@ import org.w3c.dom.Text;
 
 public class Inventario
 {
-    public int id_inventario;
-    public String nombre;
-    public String categoria;
-    public int precio;
-    public int cantidad_disponible;
-    public String proveedor_asoc;
-    public int stock;
+    private int id_inventario;
+    private String nombres;
+    private  String categoria;
+    private double precio;
+    private int cant_disponible;
+    private String proveedor_asoc;
+    private  int stock;
 
-    public Inventario(int id, String nombre, String categoria, int precio, int cantidad_disponible, String proveedor_asoc, int stock)
-    {
-        this.id_inventario = id;
-        this.nombre = nombre;
+    public Inventario(int id_inventario, String nombres, String categoria, double precio, int cant_disponible, String proveedor_asoc, int stock) {
+        this.id_inventario = id_inventario;
+        this.nombres = nombres;
         this.categoria = categoria;
         this.precio = precio;
-        this.cantidad_disponible = cantidad_disponible;
+        this.cant_disponible = cant_disponible;
         this.proveedor_asoc = proveedor_asoc;
         this.stock = stock;
     }
 
-    public int getId()
-    {
+    public Inventario(String nombres) {
+    }
+
+    public int getId_inventario() {
         return id_inventario;
     }
 
-    public void setId(int id)
-    {
-        this.id_inventario = id;
+    public void setId_inventario(int id_inventario) {
+        this.id_inventario = id_inventario;
     }
 
-    public String getNombre()
-    {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre)
-    {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
-    public String getCategoria()
-    {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria)
-    {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    public int getPrecio()
-    {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio)
-    {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public int getCantidadDisponible()
-    {
-        return cantidad_disponible;
+    public int getCant_disponible() {
+        return cant_disponible;
     }
 
-    public void setCantidadDisponible(int cantidad_disponible)
-    {
-        this.cantidad_disponible = cantidad_disponible;
+    public void setCant_disponible(int cant_disponible) {
+        this.cant_disponible = cant_disponible;
     }
 
-    public String getProveedorAsociado()
-    {
+    public String getProveedor_asoc() {
         return proveedor_asoc;
     }
 
-    public void setProveedorAsociado(String proveedor_asoc)
-    {
+    public void setProveedor_asoc(String proveedor_asoc) {
         this.proveedor_asoc = proveedor_asoc;
     }
 
-    public int getStock()
-    {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(int stock)
-    {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 

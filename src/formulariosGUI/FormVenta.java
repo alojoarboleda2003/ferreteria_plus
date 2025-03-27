@@ -1,10 +1,8 @@
 package formulariosGUI;
 
-import DAO.ProductoDAO;
+import DAO.InventarioDAO;
 import conexionBD.ConexionBD;
-import modelos.Cliente;
-import modelos.Producto;
-import modelos.Proveedor;
+import modelos.Inventario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,20 +35,23 @@ public class FormVenta {
     private JScrollPane buscarproducto;
     private JScrollPane datoventa;
 
-    ProductoDAO productoDAO = new ProductoDAO();
+    InventarioDAO inventarioDAO = new InventarioDAO();
 
     public FormVenta() {
         buscador.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nombre = buscador.getText();
+                String nombres = buscador.getText();
+                if (nombres != null && nombres.equals("productos")){
+                    Inventario inventario = new Inventario(nombres);
+                    inventario.setNombres(nombres);
+                    InventarioDAO.buscarp(inventario);
+                    obtener_datos_producto();
+
+                }
 
 
-                Producto producto = new Producto(nombre);
-                producto.setNombre(nombre);
-                productoDAO.buscarp(producto);
-                obtener_datos_producto();
 
             }
         });
@@ -103,7 +104,7 @@ public class FormVenta {
         model.addColumn("ID Producto");
         model.addColumn("Nombre");
         model.addColumn("Precio");
-        model.addColumn("Stock");
+        model.addColumn("Cantidad Disponible");
 
 
         datosproducto.setModel(model);
@@ -112,14 +113,14 @@ public class FormVenta {
 
         try {
             Statement start = con.createStatement();
-            String query = "SELECT * FROM producto";
+            String query = "SELECT * FROM inventario";
             ResultSet rs = start.executeQuery(query);
 
             while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
-                dato[2] = rs.getString(3);
-                dato[3] = rs.getString(4);
+                dato[2] = rs.getString(4);
+                dato[3] = rs.getString(5);
 
                 model.addRow(dato);
             }
