@@ -45,6 +45,7 @@ public class FormVenta  extends JFrame{
     InventarioDAO inventarioDAO = new InventarioDAO();
 
     public FormVenta() {
+        obtener_datos_producto();
 
         setContentPane(Fventas);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
@@ -68,13 +69,13 @@ public class FormVenta  extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String nombrest = buscador.getText();
-                if (nombrest != null && nombrest.equals("productos")){
+
                     Inventario inventario = new Inventario(nombrest);
                     inventario.setNombres(nombrest);
                     InventarioDAO.buscarp(inventario);
                     obtener_datos_producto();
 
-                }
+
 
 
 
@@ -216,18 +217,29 @@ public class FormVenta  extends JFrame{
         Connection con = conexionBD.getConnection();
 
         try {
-            Statement start = con.createStatement();
-            String query = "SELECT * FROM inventario";
-            ResultSet rs = start.executeQuery(query);
+            // Usamos PreparedStatement para prevenir problemas con valores dinámicos
+            String query = "SELECT id_inventario, nombres, precio, cant_disponible FROM inventario WHERE nombres = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+
+            String nombreProductoSeleccionado = buscador.getText();
+            pstmt.setString(1, nombreProductoSeleccionado);
+
+            // Ejecutamos la consulta
+            ResultSet rs = pstmt.executeQuery();
+
+
 
             while (rs.next()) {
                 dato[0] = rs.getString(1);
                 dato[1] = rs.getString(2);
-                dato[2] = rs.getString(4);
-                dato[3] = rs.getString(5);
+                dato[2] = rs.getString(3);
+                dato[3] = rs.getString(4);
+
 
                 model.addRow(dato);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
