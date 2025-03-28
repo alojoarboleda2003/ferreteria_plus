@@ -12,7 +12,7 @@ public class ConexionBD {
 
         try
         {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fete","root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ferreteria","root", "");
 
         }
         catch (Exception e)
