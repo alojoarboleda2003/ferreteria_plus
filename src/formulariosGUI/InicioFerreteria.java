@@ -28,6 +28,11 @@ public class InicioFerreteria {
                 } else if (seleccion != null && seleccion.equals("Proveedores")) {
                     FormProveedor formProveedor = new FormProveedor();
                     formProveedor.setVisible(true);
+
+                } else if (seleccion != null && seleccion.equals("Inventario")) {
+                    FormInventario formInventario = new FormInventario();
+                    formInventario.setVisible(true);
+                    
                 }
 
 
