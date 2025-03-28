@@ -27,7 +27,12 @@ public class Inventario
 
     }
 
-    public Inventario(String nombres) {
+
+
+    public Inventario(String nombres, String categoria, double precio, int cantDisponible, String proveedorAsoc, int stock) {
+    }
+
+    public Inventario(String nombrest) {
     }
 
     public int getId_inventario() {

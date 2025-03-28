@@ -6,13 +6,13 @@ import java.sql.DriverManager;
 
 public class ConexionBD {
 
-    public Connection getConnection()
+    public static Connection getConnection()
     {
         Connection con = null;
 
         try
         {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ferreteria","root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fete","root", "");
 
         }
         catch (Exception e)

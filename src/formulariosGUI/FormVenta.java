@@ -67,10 +67,10 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nombres = buscador.getText();
-                if (nombres != null && nombres.equals("productos")){
-                    Inventario inventario = new Inventario(nombres);
-                    inventario.setNombres(nombres);
+                String nombrest = buscador.getText();
+                if (nombrest != null && nombrest.equals("productos")){
+                    Inventario inventario = new Inventario(nombrest);
+                    inventario.setNombres(nombrest);
                     InventarioDAO.buscarp(inventario);
                     obtener_datos_producto();
 
@@ -90,9 +90,9 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nombres = agregarProductoButton.getText();
-                Inventario inventario = new Inventario(nombres);
-                inventario.setNombres(nombres);
+                String nombresr = agregarProductoButton.getText();
+                Inventario inventario = new Inventario(nombresr);
+                inventario.setNombres(nombresr);
                 agregar_datos_p();
                 clear();
 
