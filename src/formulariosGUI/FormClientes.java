@@ -27,6 +27,7 @@ public class FormClientes extends JFrame{
     private JButton ELIMINARButton;
     private JButton GUARDARButton;
     private JButton ACTUALIZARButton;
+    private JTextField textField6;
     int filas = 0;
 
 
@@ -46,12 +47,13 @@ public class FormClientes extends JFrame{
         GUARDARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int cedula = Integer.parseInt(textField6.getText());
                 String nombre = textField2.getText();
                 double telefono = Double.parseDouble(textField3.getText());
                 String direccion = textField4.getText();
                 String correo = textField5.getText();
 
-                Cliente cliente = new Cliente(0, nombre, telefono, direccion,correo);
+                Cliente cliente = new Cliente(0, cedula,nombre, telefono, direccion,correo);
                 clienteDAO.agregar(cliente);
                 obtener_datos();
                 clear();
@@ -61,13 +63,14 @@ public class FormClientes extends JFrame{
         ACTUALIZARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int cedula = Integer.parseInt(textField6.getText());
                 String nombre = textField2.getText();
                 double telefono = Double.parseDouble(textField3.getText());
                 String direccion = textField4.getText();
                 String correo = textField5.getText();
                 int id = Integer.parseInt(textField1.getText());
 
-                Cliente cliente = new Cliente(id, nombre, telefono, direccion,correo);
+                Cliente cliente = new Cliente(id, cedula,nombre, telefono, direccion,correo);
                 clienteDAO.actualizar(cliente);
                 obtener_datos();
                 clear();
@@ -94,10 +97,11 @@ public class FormClientes extends JFrame{
 
                 if (selectFila >= 0) {
                     textField1.setText((String) table1.getValueAt(selectFila, 0));
-                    textField2.setText((String) table1.getValueAt(selectFila, 1));
-                    textField3.setText((String) table1.getValueAt(selectFila, 2));
-                    textField4.setText((String) table1.getValueAt(selectFila, 3));
-                    textField5.setText((String) table1.getValueAt(selectFila, 4));
+                    textField6.setText((String) table1.getValueAt(selectFila, 1));
+                    textField2.setText((String) table1.getValueAt(selectFila, 2));
+                    textField3.setText((String) table1.getValueAt(selectFila, 3));
+                    textField4.setText((String) table1.getValueAt(selectFila, 4));
+                    textField5.setText((String) table1.getValueAt(selectFila, 5));
 
                     filas = selectFila;
                 }
@@ -108,6 +112,7 @@ public class FormClientes extends JFrame{
 
         public void clear() {
             textField1.setText("");
+            textField6.setText("");
             textField2.setText("");
             textField3.setText("");
             textField4.setText("");
@@ -121,13 +126,14 @@ public class FormClientes extends JFrame{
             DefaultTableModel model = new DefaultTableModel();
 
             model.addColumn("ID Cliente");
+            model.addColumn("Cedula");
             model.addColumn("Nombre");
             model.addColumn("Telefono");
             model.addColumn("Direccion");
             model.addColumn("Correo");
 
             table1.setModel(model);
-            String[] dato = new String[5];
+            String[] dato = new String[6];
             Connection con = conexionBD.getConnection();
 
             try {
@@ -141,6 +147,7 @@ public class FormClientes extends JFrame{
                     dato[2] = rs.getString(3);
                     dato[3] = rs.getString(4);
                     dato[4] = rs.getString(5);
+                    dato[5] = rs.getString(6);
                     model.addRow(dato);
                 }
             } catch (SQLException e) {

@@ -1,17 +1,20 @@
 package formulariosGUI;
 
+import DAO.ClienteDAO;
 import DAO.InventarioDAO;
 import conexionBD.ConexionBD;
+import modelos.Cliente;
 import modelos.Inventario;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
-import java.util.Locale;
+import java.util.Arrays;
 
 public class FormVenta  extends JFrame{
     private JTextField buscador;
@@ -36,13 +39,19 @@ public class FormVenta  extends JFrame{
     private JScrollPane datoventa;
     private JTextField textField1;
     private JPanel producto_elegido;
+    private JTextField buscarcliente;
+    private JTextField Ccedula;
+    private JPanel infoc;
     int filas = 0;
     double totalm = 0;
+    double totalr = 0;
     double IVA = 0.19;
 
 
 
+
     InventarioDAO inventarioDAO = new InventarioDAO();
+    private String buscar_cliente;
 
     public FormVenta() {
         obtener_datos_producto();
@@ -115,11 +124,23 @@ public class FormVenta  extends JFrame{
                         DefaultTableModel model = (DefaultTableModel) productosventa.getModel();
                         model.removeRow(selectedRow); // Elimina la fila seleccionada
 
+
+                        // Restar el total con IVA del producto eliminado
+                        if (totalm - totalr >= 0) {
+                            totalm -= totalr;  // Restar el total con IVA
+                        } else {
+                            totalm = 0;  // Evitar que totalm sea negativo
+                        }
+
+                        // Actualizar el total en textField8
+                        textField8.setText(String.valueOf(totalm));
+
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún producto para eliminar.");
                 }
             }
+
 
 
 
@@ -186,6 +207,23 @@ public class FormVenta  extends JFrame{
             }
         });
 
+        buscarcliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombresc = buscarcliente.getText();
+
+                Cliente cliente = new Cliente(nombresc);
+                cliente.setNombre(nombresc);
+                buscar_cliente();
+
+            }
+        });
+        Ccedula.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void clear() {
@@ -282,6 +320,51 @@ public class FormVenta  extends JFrame{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void buscar_cliente(){
+
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            con = conexionBD.getConnection();
+
+            // Obtener la cédula ingresada
+            String dnom = buscarcliente.getText();
+
+            // Consulta SQL
+            String query = "SELECT nombre FROM cliente WHERE cedula = ?";
+
+            // Preparar la sentencia SQL
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, dnom);
+
+
+            rs = stmt.executeQuery();
+
+            // Verificar si se encuentra el cliente
+            if (rs.next()) {
+                String nombresc = rs.getString("nombre");
+
+
+
+                // Asignar el nombre al JTextField Ccedula
+                Ccedula.setText(nombresc);
+            } else {
+
+                System.out.println("Cliente no encontrado.");
+                Ccedula.setText("Cliente no encontrado");
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -291,15 +374,16 @@ public class FormVenta  extends JFrame{
         Inventario inventario = new Inventario(precio);
         int cantidad = Integer.parseInt(cant_venta.getText());
 
-        double totalr = precio * cantidad;
+        totalr = precio * cantidad;
         double ivatotal = totalr * IVA;
-        double totalconivan = totalr + ivatotal;
+        double totalconiva = totalr+ivatotal;
+
 
 
 
 
         subtotal.setText(String.valueOf(totalr));
-        totalm += totalconivan;
+        totalm += totalconiva;
         textField8.setText(String.valueOf(totalm));
 
 
@@ -312,7 +396,7 @@ public class FormVenta  extends JFrame{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(900, 600);
+        frame.setSize(900, 650);
         frame.setResizable(false);
     }
 }

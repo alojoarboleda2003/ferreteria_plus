@@ -12,20 +12,27 @@ public class ClienteDAO
 {
     private ConexionBD conexionBD = new ConexionBD();
 
+    public static void buscarc(Cliente cliente) {
+        Connection con = ConexionBD.getConnection();
+
+
+        String query = "SELECT nombre FROM inventario WHERE cedula = ?";
+    }
+
     public void agregar(Cliente cliente)
     {
         Connection con = conexionBD.getConnection();
 
-        String query = "INSERT INTO cliente (nombre, telefono, direccion, correo) VALUES (?,?,?,?)";
+        String query = "INSERT INTO cliente (cedula,nombre, telefono, direccion, correo) VALUES (?,?,?,?)";
 
         try
         {
             PreparedStatement pst = con.prepareStatement(query);
-
-            pst.setString(1,cliente.getNombre());
-            pst.setDouble(2,cliente.getTelefono());
-            pst.setString(3,cliente.getDireccion());
-            pst.setString(4,cliente.getCorreo());
+            pst.setInt(1,cliente.getCedula());
+            pst.setString(2,cliente.getNombre());
+            pst.setDouble(3,cliente.getTelefono());
+            pst.setString(4,cliente.getDireccion());
+            pst.setString(5,cliente.getCorreo());
 
             int resultado = pst.executeUpdate();
 
@@ -75,17 +82,17 @@ public class ClienteDAO
     public void actualizar(Cliente cliente)
     {
         Connection con = conexionBD.getConnection();
-        String query = "UPDATE cliente set nombre = ?, telefono = ?, direccion = ?, correo = ? WHERE id_cliente = ?";
+        String query = "UPDATE cliente set cedula = ?, nombre = ?, telefono = ?, direccion = ?, correo = ? WHERE id_cliente = ?";
 
         try
         {
             PreparedStatement pst = con.prepareStatement(query);
-
-            pst.setString(1,cliente.getNombre());
-            pst.setDouble(2,cliente.getTelefono());
-            pst.setString(3,cliente.getDireccion());
-            pst.setString(4,cliente.getCorreo());
-            pst.setInt(5,cliente.getId_cliente());
+            pst.setInt(1,cliente.getCedula());
+            pst.setString(2,cliente.getNombre());
+            pst.setDouble(3,cliente.getTelefono());
+            pst.setString(4,cliente.getDireccion());
+            pst.setString(5,cliente.getCorreo());
+            pst.setInt(6,cliente.getId_cliente());
 
             int resultado = pst.executeUpdate();
 
