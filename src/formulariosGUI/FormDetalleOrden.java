@@ -10,6 +10,7 @@ public class FormDetalleOrden {
     private JScrollPane productosordenados;
     private JComboBox comboBox1;
     private JTextField textField2;
+    private JButton finalizarVentaButton;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("FormDetalleOrden");
