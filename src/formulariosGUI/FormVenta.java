@@ -8,6 +8,7 @@ import modelos.Inventario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -52,6 +53,7 @@ public class FormVenta  extends JFrame{
     InventarioDAO inventarioDAO = new InventarioDAO();
     private String buscar_cliente;
 
+
     public FormVenta() {
         obtener_datos_producto();
 
@@ -92,6 +94,8 @@ public class FormVenta  extends JFrame{
         clickParaSeleccionarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                agregar_datos_p2();
+
 
             }
         });
@@ -243,6 +247,8 @@ public class FormVenta  extends JFrame{
         textField1.setText("");
         cant_venta.setText("");
         subtotal.setText("");
+        DefaultTableModel model = (DefaultTableModel) datosproducto.getModel();
+        model.setRowCount(0);
 
     }
 
@@ -329,6 +335,21 @@ public class FormVenta  extends JFrame{
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public void agregar_datos_p2() {
+
+        if (datosproducto.getRowCount() > 0) {
+
+            int selectFila = 0;  
+
+
+            textField2.setText((String) datosproducto.getValueAt(selectFila, 0));  // ID Producto
+            textField3.setText((String) datosproducto.getValueAt(selectFila, 1));  // Nombre
+            textField4.setText((String) datosproducto.getValueAt(selectFila, 2));  // Precio
+            textField1.setText((String) datosproducto.getValueAt(selectFila, 3));  // Cantidad Disponible
         }
 
     }
