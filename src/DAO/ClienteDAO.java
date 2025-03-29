@@ -23,7 +23,7 @@ public class ClienteDAO
     {
         Connection con = conexionBD.getConnection();
 
-        String query = "INSERT INTO cliente (cedula,nombre, telefono, direccion, correo) VALUES (?,?,?,?)";
+        String query = "INSERT INTO cliente (cedula,nombre, telefono, direccion, correo) VALUES (?,?,?,?,?)";
 
         try
         {
