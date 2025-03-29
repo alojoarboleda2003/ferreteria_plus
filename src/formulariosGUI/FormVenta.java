@@ -1,20 +1,18 @@
 package formulariosGUI;
 
-import DAO.ClienteDAO;
 import DAO.InventarioDAO;
+import com.toedter.calendar.JCalendar;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
 import modelos.Inventario;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
-import java.util.Arrays;
 
 public class FormVenta  extends JFrame{
     private JTextField buscador;
@@ -42,9 +40,10 @@ public class FormVenta  extends JFrame{
     private JTextField buscarcliente;
     private JTextField Ccedula;
     private JPanel infoc;
+    private JTextField calendario;
     int filas = 0;
     double totalm = 0;
-    double totalr = 0;
+    double totalconiva = 0;
     double IVA = 0.19;
 
 
@@ -104,6 +103,7 @@ public class FormVenta  extends JFrame{
                 Inventario inventario = new Inventario(nombresr);
                 inventario.setNombres(nombresr);
                 agregar_datos_p();
+                psubtotal();
                 clear();
 
 
@@ -126,8 +126,8 @@ public class FormVenta  extends JFrame{
 
 
                         // Restar el total con IVA del producto eliminado
-                        if (totalm - totalr >= 0) {
-                            totalm -= totalr;  // Restar el total con IVA
+                        if (totalm - totalconiva >= 0) {
+                            totalm -= totalconiva;  // Restar el total con IVA
                         } else {
                             totalm = 0;  // Evitar que totalm sea negativo
                         }
@@ -181,14 +181,17 @@ public class FormVenta  extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
 
-                double precio = Double.parseDouble(cant_venta.getText());
 
-                // Crear el inventario con el precio
+
+
+                double precio = Double.parseDouble(textField4.getText());
                 Inventario inventario = new Inventario(precio);
-                inventario.setNombres(String.valueOf(precio));
+                int cantidad = Integer.parseInt(cant_venta.getText());
 
+                double totalr = precio * cantidad;
 
-                psubtotal();
+                subtotal.setText(String.valueOf(totalr));
+
 
             }
 
@@ -221,6 +224,13 @@ public class FormVenta  extends JFrame{
         Ccedula.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        calendario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
 
             }
         });
@@ -374,12 +384,9 @@ public class FormVenta  extends JFrame{
         Inventario inventario = new Inventario(precio);
         int cantidad = Integer.parseInt(cant_venta.getText());
 
-        totalr = precio * cantidad;
+        double totalr = precio * cantidad;
         double ivatotal = totalr * IVA;
-        double totalconiva = totalr+ivatotal;
-
-
-
+        totalconiva = totalr+ivatotal;
 
 
         subtotal.setText(String.valueOf(totalr));
