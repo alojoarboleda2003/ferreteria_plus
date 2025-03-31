@@ -1,14 +1,14 @@
 package formulariosGUI;
 
+import DAO.DetalleOrdenDAO;
 import DAO.InventarioDAO;
-import com.toedter.calendar.JCalendar;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
+import modelos.DetetalleOrden;
 import modelos.Inventario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,7 +28,7 @@ public class FormVenta  extends JFrame{
     private JTextField cant_venta;
     private JButton agregarProductoButton;
     private JPanel Fventas;
-    private JTextField subtotal;
+    private JTextField subtotalf;
     private JButton eliminarButton;
     private JTable productosventa;
 
@@ -51,6 +51,7 @@ public class FormVenta  extends JFrame{
 
 
     InventarioDAO inventarioDAO = new InventarioDAO();
+    DetalleOrdenDAO detalleOrdenDAO = new DetalleOrdenDAO();
     private String buscar_cliente;
 
 
@@ -194,7 +195,7 @@ public class FormVenta  extends JFrame{
 
                 double totalr = precio * cantidad;
 
-                subtotal.setText(String.valueOf(totalr));
+                subtotalf.setText(String.valueOf(totalr));
 
 
             }
@@ -203,7 +204,7 @@ public class FormVenta  extends JFrame{
 
 
         });
-        subtotal.addActionListener(new ActionListener() {
+        subtotalf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -223,11 +224,15 @@ public class FormVenta  extends JFrame{
                 cliente.setNombre(nombresc);
                 buscar_cliente();
 
+
             }
+
+
         });
         Ccedula.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
             }
         });
@@ -235,6 +240,24 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+            }
+        });
+        cobrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String nombre_cliente = Ccedula.getText();
+                int cantidad = Integer.parseInt(cant_venta.getText());
+                double subtotal = Double.parseDouble(subtotalf.getText());
+
+
+                DetetalleOrden detetalleOrden = new DetetalleOrden(nombre_cliente,cantidad,subtotal);
+                detetalleOrden.setNombre_cliente(nombre_cliente);
+                detetalleOrden.setCantidad(cantidad);
+                detetalleOrden.setSubtotal(subtotal);
+
+                detalleOrdenDAO.agregar_cliente(nombre_cliente,cantidad,subtotal);
 
             }
         });
@@ -246,7 +269,7 @@ public class FormVenta  extends JFrame{
         textField4.setText("");
         textField1.setText("");
         cant_venta.setText("");
-        subtotal.setText("");
+        subtotalf.setText("");
         DefaultTableModel model = (DefaultTableModel) datosproducto.getModel();
         model.setRowCount(0);
 
@@ -322,7 +345,7 @@ public class FormVenta  extends JFrame{
             ResultSet rs = pstmt.executeQuery();
 
             String cantidad = cant_venta.getText();
-            String subtotatl = subtotal.getText();
+            String subtotatl = subtotalf.getText();
 
             while (rs.next()) {
                 dato[0] = rs.getString(1);
@@ -410,7 +433,7 @@ public class FormVenta  extends JFrame{
         totalconiva = totalr+ivatotal;
 
 
-        subtotal.setText(String.valueOf(totalr));
+        subtotalf.setText(String.valueOf(totalr));
         totalm += totalconiva;
         textField8.setText(String.valueOf(totalm));
 
