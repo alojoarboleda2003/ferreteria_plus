@@ -1,4 +1,5 @@
 package formulariosGUI;
+
 import DAO.EmpleadoDAO;
 import conexionBD.ConexionBD;
 import modelos.Empleado;
@@ -16,45 +17,64 @@ import java.sql.Statement;
 
 public class FormEmpleados {
     private JPanel Fempleados;
+
     private JTable table1;
     private JTextField textField1;
     private JTextField textField2;
     private JTextField textField3;
     private JTextField textField4;
-    private JTextField textField5;
+    private JButton AGREGARButton;
+    private JButton MODIFICARButton;
     private JButton ELIMINARButton;
-    private JButton GUARDARButton;
-    private JButton ACTUALIZARButton;
-    int filas = 0;
-
+    int filas=0;
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
+
     public FormEmpleados() {
+
         obtener_datos();
-        GUARDARButton.addActionListener(new ActionListener() {
+        textField1.setEnabled(false);
+
+        AGREGARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String nombre = textField2.getText();
+                String cargo = textField3.getText();
+                double salario = Double.parseDouble(textField4.getText());
 
+
+                Empleado empleado = new Empleado(0, nombre, cargo, salario);
+                empleadoDAO.agregar(empleado);
+                obtener_datos();
+                clear();
 
             }
         });
-        ACTUALIZARButton.addActionListener(new ActionListener() {
+
+        MODIFICARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String nombre = textField2.getText();
+                String cargo = textField3.getText();
+                double salario = Double.parseDouble(textField4.getText());
+                int id_empleado= Integer.parseInt(textField1.getText());
 
+                Empleado empleado = new Empleado(id_empleado, nombre, cargo, salario);
+                empleadoDAO.actualizar(empleado);
+                obtener_datos();
+                clear();
 
             }
         });
         ELIMINARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(textField1.getText());
-                empleadoDAO.eliminar(id);
+                int id_empleado = Integer.parseInt(textField1.getText());
+                empleadoDAO.eliminar(id_empleado);
                 obtener_datos();
                 clear();
+
             }
-
-
         });
 
         table1.addMouseListener(new MouseAdapter() {
@@ -68,7 +88,6 @@ public class FormEmpleados {
                     textField2.setText((String) table1.getValueAt(selectFila, 1));
                     textField3.setText((String) table1.getValueAt(selectFila, 2));
                     textField4.setText((String) table1.getValueAt(selectFila, 3));
-                    textField5.setText((String) table1.getValueAt(selectFila, 4));
 
                     filas = selectFila;
                 }
@@ -81,7 +100,6 @@ public class FormEmpleados {
         textField2.setText("");
         textField3.setText("");
         textField4.setText("");
-        textField5.setText("");
     }
 
     ConexionBD conexionBD = new ConexionBD();
@@ -90,13 +108,13 @@ public class FormEmpleados {
     public void obtener_datos() {
         DefaultTableModel model = new DefaultTableModel();
 
-        model.addColumn("ID Empleado");
+        model.addColumn("ID EMPLEADO");
         model.addColumn("Nombre");
-        model.addColumn("Cargo");
-        model.addColumn("Salario");
+        model.addColumn("CARGO");
+        model.addColumn("SALARIO");
 
         table1.setModel(model);
-        String[] dato = new String[5];
+        String[] dato = new String[4];
         Connection con = conexionBD.getConnection();
 
         try {
@@ -109,7 +127,6 @@ public class FormEmpleados {
                 dato[1] = rs.getString(2);
                 dato[2] = rs.getString(3);
                 dato[3] = rs.getString(4);
-                dato[4] = rs.getString(5);
                 model.addRow(dato);
             }
         } catch (SQLException e) {
@@ -118,9 +135,8 @@ public class FormEmpleados {
 
     }
 
-
     public static void main(String[] args) {
-        JFrame frame = new JFrame("empleado");
+        JFrame frame = new JFrame("FormEmpleados");
         frame.setContentPane(new FormEmpleados().Fempleados);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
