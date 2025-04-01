@@ -8,22 +8,22 @@ public class Empleado
     private double salario;
 
     // Constructor
-    public Empleado(int id, String nombre, String cargo, double salario)
+    public Empleado(int id_empleado, String nombre, String cargo, double salario)
     {
-        this.id_empleado = id;
+        this.id_empleado = id_empleado;
         this.nombre = nombre;
         this.cargo = cargo;
         this.salario = salario;
     }
 
-    public int getId()
+    public int getId_empleado()
     {
         return id_empleado;
     }
 
-    public void setId(int id)
+    public void setId_empleado(int id_empleado)
     {
-        this.id_empleado = id;
+        this.id_empleado = id_empleado;
     }
 
     public String getNombre()

@@ -85,7 +85,8 @@ public class EmpleadoDAO
 
             pst.setString(1, empleado.getNombre());
             pst.setString(2, empleado.getCargo());
-            pst.setString(3, String.valueOf(empleado.getSalario()));
+            pst.setDouble(3, empleado.getSalario());
+            pst.setInt(4,empleado.getId_empleado());
 
             int resultado = pst.executeUpdate();
 

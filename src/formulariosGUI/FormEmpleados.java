@@ -26,6 +26,7 @@ public class FormEmpleados {
     private JButton AGREGARButton;
     private JButton MODIFICARButton;
     private JButton ELIMINARButton;
+    private JComboBox comboBox1;
     int filas=0;
     EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
@@ -39,7 +40,7 @@ public class FormEmpleados {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombre = textField2.getText();
-                String cargo = textField3.getText();
+                String cargo = (String) comboBox1.getSelectedItem();
                 double salario = Double.parseDouble(textField4.getText());
 
 
@@ -55,9 +56,9 @@ public class FormEmpleados {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombre = textField2.getText();
-                String cargo = textField3.getText();
+                String cargo = (String) comboBox1.getSelectedItem();
                 double salario = Double.parseDouble(textField4.getText());
-                int id_empleado= Integer.parseInt(textField1.getText());
+                int id_empleado = Integer.parseInt(textField1.getText());
 
                 Empleado empleado = new Empleado(id_empleado, nombre, cargo, salario);
                 empleadoDAO.actualizar(empleado);
@@ -86,7 +87,7 @@ public class FormEmpleados {
                 if (selectFila >= 0) {
                     textField1.setText((String) table1.getValueAt(selectFila, 0));
                     textField2.setText((String) table1.getValueAt(selectFila, 1));
-                    textField3.setText((String) table1.getValueAt(selectFila, 2));
+                    comboBox1.setSelectedItem(table1.getValueAt(selectFila, 2));
                     textField4.setText((String) table1.getValueAt(selectFila, 3));
 
                     filas = selectFila;
@@ -98,7 +99,7 @@ public class FormEmpleados {
     public void clear() {
         textField1.setText("");
         textField2.setText("");
-        textField3.setText("");
+        comboBox1.setSelectedItem("");
         textField4.setText("");
     }
 
