@@ -9,10 +9,7 @@ import modelos.Inventario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.sql.*;
 
 public class FormVenta  extends JFrame{
@@ -79,18 +76,8 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nombrest = buscador.getText();
-
-                    Inventario inventario = new Inventario(nombrest);
-                    inventario.setNombres(nombrest);
-                    InventarioDAO.buscarp(inventario);
-                    obtener_datos_producto();
-
-
-
-
-
             }
+
         });
         clickParaSeleccionarButton.addActionListener(new ActionListener() {
             @Override
@@ -261,6 +248,12 @@ public class FormVenta  extends JFrame{
 
             }
         });
+        buscador.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                obtener_datos_producto();
+            }
+        });
     }
 
     public void clear() {
@@ -294,17 +287,27 @@ public class FormVenta  extends JFrame{
         Connection con = conexionBD.getConnection();
 
         try {
-            // Usamos PreparedStatement para prevenir problemas con valores dinámicos
-            String query = "SELECT id_inventario, nombres, precio, cant_disponible FROM inventario WHERE nombres = ?";
-            PreparedStatement pstmt = con.prepareStatement(query);
+            Statement start = con.createStatement();
 
+            // Si no hay texto en el campo de búsqueda, cargamos todos los productos
+            String query = "SELECT id_inventario, nombres, precio, cant_disponible FROM inventario";
 
             String nombreProductoSeleccionado = buscador.getText();
-            pstmt.setString(1, nombreProductoSeleccionado);
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                // Si el campo de búsqueda no está vacío, filtrar por nombre
+                query = "SELECT id_inventario, nombres, precio, cant_disponible FROM inventario WHERE nombres = ?";
+            }
+            PreparedStatement pstmt = con.prepareStatement(query);
 
-            // Ejecutamos la consulta
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                pstmt.setString(1,   nombreProductoSeleccionado);
+            }
+            
+
+
+
             ResultSet rs = pstmt.executeQuery();
-
+            model.setRowCount(0);
 
 
             while (rs.next()) {
@@ -388,10 +391,10 @@ public class FormVenta  extends JFrame{
 
             con = conexionBD.getConnection();
 
-            // Obtener la cédula ingresada
+
             String dnom = buscarcliente.getText();
 
-            // Consulta SQL
+
             String query = "SELECT nombre FROM cliente WHERE cedula = ?";
 
             // Preparar la sentencia SQL
@@ -407,7 +410,7 @@ public class FormVenta  extends JFrame{
 
 
 
-                // Asignar el nombre al JTextField Ccedula
+                
                 Ccedula.setText(nombresc);
             } else {
 
