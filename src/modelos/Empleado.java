@@ -5,10 +5,10 @@ public class Empleado
     private int id_empleado;
     private String nombre;
     private String cargo;
-    private String salario;
+    private double salario;
 
     // Constructor
-    public Empleado(int id, String nombre, String cargo, String salario)
+    public Empleado(int id, String nombre, String cargo, double salario)
     {
         this.id_empleado = id;
         this.nombre = nombre;
@@ -46,12 +46,12 @@ public class Empleado
         this.cargo = cargo;
     }
 
-    public String getSalario()
+    public double getSalario()
     {
         return salario;
     }
 
-    public void setSalario(String salario)
+    public void setSalario(double salario)
     {
         this.salario = salario;
     }
