@@ -5,6 +5,7 @@ import DAO.InventarioDAO;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
 import modelos.DetetalleOrden;
+import modelos.Empleado;
 import modelos.Inventario;
 
 import javax.swing.*;
@@ -39,6 +40,9 @@ public class FormVenta  extends JFrame{
     private JTextField Ccedula;
     private JPanel infoc;
     private JTextField calendario;
+    private JTextField nombreE;
+    private JTextField idempleado;
+    private JComboBox estado1;
     int filas = 0;
     double totalm = 0;
     double totalconiva = 0;
@@ -57,7 +61,7 @@ public class FormVenta  extends JFrame{
 
         setContentPane(Fventas);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
-        setSize(1006, 600);  // Establece el tamaño de la ventana
+        setSize(1006, 700);  // Establece el tamaño de la ventana
         setResizable(false);  // Establece que la ventana no sea redimensionable
         setLocationRelativeTo(null);
 
@@ -235,16 +239,20 @@ public class FormVenta  extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String nombre_cliente = Ccedula.getText();
+                String nombre_empleado = nombreE.getText();
                 int cantidad = Integer.parseInt(cant_venta.getText());
-                double subtotal = Double.parseDouble(subtotalf.getText());
+                double subtotal = Double.parseDouble(textField8.getText());
+                String estado = (String) estado1.getSelectedItem();
 
 
-                DetetalleOrden detetalleOrden = new DetetalleOrden(nombre_cliente,cantidad,subtotal);
+                DetetalleOrden detetalleOrden = new DetetalleOrden(nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
                 detetalleOrden.setNombre_cliente(nombre_cliente);
+                detetalleOrden.setNombre_cliente(nombre_empleado);
                 detetalleOrden.setCantidad(cantidad);
                 detetalleOrden.setSubtotal(subtotal);
+                detetalleOrden.setEstado(estado);
 
-                detalleOrdenDAO.agregar_cliente(nombre_cliente,cantidad,subtotal);
+                detalleOrdenDAO.agregar_cliente(nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
 
             }
         });
@@ -254,6 +262,23 @@ public class FormVenta  extends JFrame{
                 obtener_datos_producto();
             }
         });
+        nombreE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        idempleado.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombree = idempleado.getText();
+
+                Empleado empleado = new Empleado(nombree);
+                empleado.setNombre(nombree);
+                buscar_empleado();
+
+            }
+        });
     }
 
     public void clear() {
@@ -261,7 +286,7 @@ public class FormVenta  extends JFrame{
         textField3.setText("");
         textField4.setText("");
         textField1.setText("");
-        cant_venta.setText("");
+
         subtotalf.setText("");
         DefaultTableModel model = (DefaultTableModel) datosproducto.getModel();
         model.setRowCount(0);
@@ -357,12 +382,45 @@ public class FormVenta  extends JFrame{
                 dato[3] = subtotatl;
 
                 model.addRow(dato);
+
+                //llamamos al metodo de actualizar inventario
+                int idProducto = Integer.parseInt(dato[0]);
+                int cantidadVendida = Integer.parseInt(cantidad);
+                actualizarInventario(idProducto, cantidadVendida);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void actualizarInventario(int idProducto, int cantidadVendida) {
+        Connection con = conexionBD.getConnection();
+        PreparedStatement stmt = null;
+        try {
+
+            String query = "UPDATE inventario SET cant_disponible = cant_disponible - ? WHERE id_inventario = ?";
+            stmt = con.prepareStatement(query);
+            stmt.setInt(1, cantidadVendida);
+            stmt.setInt(2, idProducto);
+
+            // Ejecutamos la actualización
+            int filasAfectadas = stmt.executeUpdate();
+            if (filasAfectadas > 0) {
+                System.out.println("Inventario actualizado exitosamente.");
+            } else {
+                System.out.println("Error al actualizar el inventario.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void agregar_datos_p2() {
@@ -424,6 +482,50 @@ public class FormVenta  extends JFrame{
 
     }
 
+    public void buscar_empleado(){
+
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            con = conexionBD.getConnection();
+
+
+            String dnom = idempleado.getText();
+
+
+            String query = "SELECT nombre FROM empleado WHERE id_empleado = ?";
+
+            // Preparar la sentencia SQL
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, dnom);
+
+
+            rs = stmt.executeQuery();
+
+            // Verificar si se encuentra el cliente
+            if (rs.next()) {
+                String nombree = rs.getString("nombre");
+
+
+
+
+                nombreE.setText(nombree);
+            } else {
+
+                System.out.println("Cliente no encontrado.");
+                nombreE.setText("Cliente no encontrado");
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
 
     public  void psubtotal(){
 
@@ -444,13 +546,18 @@ public class FormVenta  extends JFrame{
     }
 
 
+
+
+
+
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("FormVenta");
         frame.setContentPane(new FormVenta().Fventas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(900, 650);
+        frame.setSize(900, 660);
         frame.setResizable(false);
     }
 }

@@ -18,7 +18,7 @@ public class InventarioDAO
     {
         Connection con = conexionBD.getConnection();
 
-        String query = "INSERT INTO inventario (nombres, categoria ,precio, cant_disponible, proveedor_asoc, stock) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO inventario (nombres, categoria ,precio, cant_disponible, proveedor_asoc) VALUES (?,?,?,?,?)";
 
         try
         {
@@ -29,7 +29,7 @@ public class InventarioDAO
             pst.setDouble(3,inventario.getPrecio());
             pst.setInt(4,inventario.getCant_disponible());
             pst.setString(5,inventario.getProveedor_asoc());
-            pst.setInt(6,inventario.getStock());
+
 
 
 
@@ -37,7 +37,7 @@ public class InventarioDAO
 
             if (resultado > 0)
             {
-                JOptionPane.showMessageDialog(null,"Cliente Agregado");
+                JOptionPane.showMessageDialog(null,"Inventario Agregado");
             }else
             {
                 JOptionPane.showMessageDialog(null,"Error al ingresar al Ciente ");
@@ -81,7 +81,7 @@ public class InventarioDAO
     public void actualizar(Inventario inventario)
     {
         Connection con = conexionBD.getConnection();
-        String query = "UPDATE inventario set nombres = ?, categoria = ?, precio = ?, cant_disponible = ?, proveedor_asoc = ?, stock = ? WHERE id_cliente = ?";
+        String query = "UPDATE inventario set nombres = ?, categoria = ?, precio = ?, cant_disponible = ?, proveedor_asoc = ? WHERE id_inventario = ?";
 
         try
         {
@@ -92,15 +92,14 @@ public class InventarioDAO
             pst.setDouble(3,inventario.getPrecio());
             pst.setInt(4,inventario.getCant_disponible());
             pst.setString(5,inventario.getProveedor_asoc());
-            pst.setInt(6,inventario.getStock());
-
+            pst.setInt(6,inventario.getId_inventario());
 
 
             int resultado = pst.executeUpdate();
 
             if (resultado > 0)
             {
-                JOptionPane.showMessageDialog(null,"Cliente actualizado");
+                JOptionPane.showMessageDialog(null,"Inventario actualizado");
             }else
             {
                 JOptionPane.showMessageDialog(null,"error al modificar");

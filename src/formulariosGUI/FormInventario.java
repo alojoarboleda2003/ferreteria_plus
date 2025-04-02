@@ -25,7 +25,6 @@ public class FormInventario extends JFrame{
     private JTextField textField4;
     private JTextField textField5;
     private JTextField textField6;
-    private JTextField textField7;
     private JButton agregarButton;
     private JButton actualizarButton;
     private JButton eliminarButton;
@@ -39,7 +38,7 @@ public class FormInventario extends JFrame{
         setResizable(false);  // Establece que la ventana no sea redimensionable
         setLocationRelativeTo(null);
         // Centra la ventana en la pantalla
-
+        textField1.setEnabled(false);
         obtener_datos();
 
         agregarButton.addActionListener(new ActionListener() {
@@ -50,9 +49,9 @@ public class FormInventario extends JFrame{
                 double precio = Double.parseDouble(textField4.getText());
                 int cant_disponible = Integer.parseInt(textField5.getText());
                 String proveedor_asoc = textField6.getText();
-                int stock = Integer.parseInt(textField7.getText());
 
-                Inventario inventario1 = new Inventario(0,nombres, categoria, precio, cant_disponible, proveedor_asoc, stock);
+
+                Inventario inventario1 = new Inventario(0,nombres, categoria, precio, cant_disponible, proveedor_asoc);
                 inventarioDAO.agregar(inventario1);
                 obtener_datos();
                 clear();
@@ -70,11 +69,11 @@ public class FormInventario extends JFrame{
                 int precio = Integer.parseInt(textField4.getText());
                 int cant_disponible = Integer.parseInt(textField5.getText());
                 String proveedor_asoc = textField6.getText();
-                int stock = Integer.parseInt(textField7.getText());
+
                 int id_inventario = Integer.parseInt(textField1.getText());
 
 
-                Inventario inventario = new Inventario(id_inventario, nombres, categoria, precio, cant_disponible, proveedor_asoc, stock);
+                Inventario inventario = new Inventario(id_inventario, nombres, categoria, precio, cant_disponible, proveedor_asoc);
                 inventarioDAO.actualizar(inventario);
                 obtener_datos();
                 clear();
@@ -106,7 +105,7 @@ public class FormInventario extends JFrame{
                     textField4.setText((String) table1.getValueAt(selectFila, 3));
                     textField5.setText((String) table1.getValueAt(selectFila, 4));
                     textField6.setText((String) table1.getValueAt(selectFila, 5));
-                    textField7.setText((String) table1.getValueAt(selectFila, 6));
+
 
                     filas = selectFila;
                 }
@@ -121,7 +120,7 @@ public class FormInventario extends JFrame{
             textField4.setText("");
             textField5.setText("");
             textField6.setText("");
-            textField7.setText("");
+
         }
 
         ConexionBD conexionBD = new ConexionBD();
@@ -136,10 +135,10 @@ public class FormInventario extends JFrame{
             model.addColumn("Precio");
             model.addColumn("Cantidad Disponible");
             model.addColumn("Proveedor Asociado");
-            model.addColumn("Stock");
+
 
             table1.setModel(model);
-            String[] dato = new String[7];
+            String[] dato = new String[6];
             Connection con = conexionBD.getConnection();
 
             try {
@@ -154,7 +153,7 @@ public class FormInventario extends JFrame{
                     dato[3] = rs.getString(4);
                     dato[4] = rs.getString(5);
                     dato[5] = rs.getString(6);
-                    dato[6] = rs.getString(7);
+
                     model.addRow(dato);
                 }
             } catch (SQLException e) {
