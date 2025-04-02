@@ -39,6 +39,12 @@ public class DetetalleOrden {
     public DetetalleOrden(String nombreCliente, String nombreEmpleado, int cantidad, double subtotal, String estado) {
     }
 
+    public DetetalleOrden(int id_orden, int idCliente, int id_empleado) {
+    }
+
+    public DetetalleOrden(int id_detalle_orden, int id_inventario, int idCliente, int id_empleado, String nombreCliente, String nombreEmpleado, int cantidad, double subtotal, String estado) {
+    }
+
 
     public int getId_detalle_orden() {
         return id_detalle_orden;

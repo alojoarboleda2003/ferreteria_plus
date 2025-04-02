@@ -43,6 +43,7 @@ public class FormVenta  extends JFrame{
     private JTextField nombreE;
     private JTextField idempleado;
     private JComboBox estado1;
+    private JTextField idcliente;
     int filas = 0;
     double totalm = 0;
     double totalconiva = 0;
@@ -209,11 +210,7 @@ public class FormVenta  extends JFrame{
         buscarcliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombresc = buscarcliente.getText();
 
-                Cliente cliente = new Cliente(nombresc);
-                cliente.setNombre(nombresc);
-                buscar_cliente();
 
 
             }
@@ -243,17 +240,24 @@ public class FormVenta  extends JFrame{
                 int cantidad = Integer.parseInt(cant_venta.getText());
                 double subtotal = Double.parseDouble(textField8.getText());
                 String estado = (String) estado1.getSelectedItem();
+                int id_cliente = Integer.parseInt(idcliente.getText());
+                int id_empleado = Integer.parseInt(idempleado.getText());
+                int id_inventario = Integer.parseInt(textField2.getText());
+                int id_orden = Integer.parseInt(textField2.getText());
 
 
-                DetetalleOrden detetalleOrden = new DetetalleOrden(nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
+                DetetalleOrden detetalleOrden1 = new DetetalleOrden(0,id_cliente,id_empleado);
+                DetetalleOrden detetalleOrden = new DetetalleOrden(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
                 detetalleOrden.setNombre_cliente(nombre_cliente);
                 detetalleOrden.setNombre_cliente(nombre_empleado);
                 detetalleOrden.setCantidad(cantidad);
                 detetalleOrden.setSubtotal(subtotal);
                 detetalleOrden.setEstado(estado);
+                detetalleOrden1.setId_cliente(id_cliente);
+                detetalleOrden1.setId_empleado(id_empleado);
 
-                detalleOrdenDAO.agregar_cliente(nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
-
+                detalleOrdenDAO.agregar_cliente(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
+                detalleOrdenDAO.agregar_orden(0,id_cliente,id_empleado);
             }
         });
         buscador.addKeyListener(new KeyAdapter() {
@@ -279,10 +283,23 @@ public class FormVenta  extends JFrame{
 
             }
         });
+        idcliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int cedula = Integer.parseInt(idcliente.getText());
+                String nombresc = idcliente.getText();
+
+
+                Cliente cliente = new Cliente(nombresc,cedula);
+                cliente.setNombre(nombresc);
+                cliente.setCedula(cedula);
+                buscar_cliente();
+            }
+        });
     }
 
     public void clear() {
-        textField2.setText("");
+
         textField3.setText("");
         textField4.setText("");
         textField1.setText("");
@@ -438,48 +455,42 @@ public class FormVenta  extends JFrame{
 
     }
 
-    public void buscar_cliente(){
-
-
+    public void buscar_cliente() {
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-
             con = conexionBD.getConnection();
 
+            String dnom = idcliente.getText();
 
-            String dnom = buscarcliente.getText();
 
-
-            String query = "SELECT nombre FROM cliente WHERE cedula = ?";
+            String query = "SELECT cedula, nombre FROM cliente WHERE id_cliente = ?";
 
             // Preparar la sentencia SQL
             stmt = con.prepareStatement(query);
             stmt.setString(1, dnom);
-
-
             rs = stmt.executeQuery();
 
             // Verificar si se encuentra el cliente
             if (rs.next()) {
-                String nombresc = rs.getString("nombre");
+                String nombre = rs.getString("nombre");
+                int cedula = rs.getInt("cedula");
 
 
-
-                
-                Ccedula.setText(nombresc);
+                buscarcliente.setText(String.valueOf(cedula));
+                Ccedula.setText(nombre);
             } else {
 
                 System.out.println("Cliente no encontrado.");
+                buscarcliente.setText("Cédula no encontrado");
                 Ccedula.setText("Cliente no encontrado");
             }
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-
     }
 
     public void buscar_empleado(){
