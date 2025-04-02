@@ -10,16 +10,16 @@ public class Inventario
     private double precio;
     private int cant_disponible;
     private String proveedor_asoc;
-    private  int stock;
 
-    public Inventario(int id_inventario, String nombres, String categoria, double precio, int cant_disponible, String proveedor_asoc, int stock) {
+
+    public Inventario(int id_inventario, String nombres, String categoria, double precio, int cant_disponible, String proveedor_asoc) {
         this.id_inventario = id_inventario;
         this.nombres = nombres;
         this.categoria = categoria;
         this.precio = precio;
         this.cant_disponible = cant_disponible;
         this.proveedor_asoc = proveedor_asoc;
-        this.stock = stock;
+
     }
 
 
@@ -83,13 +83,7 @@ public class Inventario
         this.proveedor_asoc = proveedor_asoc;
     }
 
-    public int getStock() {
-        return stock;
-    }
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
 
 
 }

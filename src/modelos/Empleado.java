@@ -16,6 +16,9 @@ public class Empleado
         this.salario = salario;
     }
 
+    public Empleado(String nombree) {
+    }
+
     public int getId_empleado()
     {
         return id_empleado;
