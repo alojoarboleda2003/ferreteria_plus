@@ -2,7 +2,6 @@ package formulariosGUI;
 
 import DAO.InventarioDAO;
 import conexionBD.ConexionBD;
-import modelos.Cliente;
 import modelos.Inventario;
 
 import javax.swing.*;
@@ -21,13 +20,13 @@ public class FormInventario extends JFrame{
     private JTable table1;
     private JTextField textField1;
     private JTextField textField2;
-    private JTextField textField3;
     private JTextField textField4;
     private JTextField textField5;
     private JTextField textField6;
     private JButton agregarButton;
     private JButton actualizarButton;
     private JButton eliminarButton;
+    private JComboBox categoria1;
     int filas=0;
 
     InventarioDAO inventarioDAO = new InventarioDAO();
@@ -45,7 +44,7 @@ public class FormInventario extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombres = textField2.getText();
-                String categoria = textField3.getText();
+                String categoria = (String) categoria1.getSelectedItem();
                 double precio = Double.parseDouble(textField4.getText());
                 int cant_disponible = Integer.parseInt(textField5.getText());
                 String proveedor_asoc = textField6.getText();
@@ -65,7 +64,7 @@ public class FormInventario extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nombres = textField2.getText();
-                String categoria = textField3.getText();
+                String categoria = (String) categoria1.getSelectedItem();
                 int precio = Integer.parseInt(textField4.getText());
                 int cant_disponible = Integer.parseInt(textField5.getText());
                 String proveedor_asoc = textField6.getText();
@@ -101,7 +100,7 @@ public class FormInventario extends JFrame{
                 if (selectFila >= 0) {
                     textField1.setText((String) table1.getValueAt(selectFila, 0));
                     textField2.setText((String) table1.getValueAt(selectFila, 1));
-                    textField3.setText((String) table1.getValueAt(selectFila, 2));
+                    categoria1.setSelectedItem( table1.getValueAt(selectFila, 2));
                     textField4.setText((String) table1.getValueAt(selectFila, 3));
                     textField5.setText((String) table1.getValueAt(selectFila, 4));
                     textField6.setText((String) table1.getValueAt(selectFila, 5));
@@ -111,12 +110,18 @@ public class FormInventario extends JFrame{
                 }
             }
         });
+        categoria1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
         public void clear() {
             textField1.setText("");
             textField2.setText("");
-            textField3.setText("");
+            categoria1.setSelectedItem("");
             textField4.setText("");
             textField5.setText("");
             textField6.setText("");

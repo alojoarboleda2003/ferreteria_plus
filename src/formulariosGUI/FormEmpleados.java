@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class FormEmpleados {
+public class FormEmpleados extends JFrame{
     private JPanel Fempleados;
 
     private JTable table1;
@@ -32,6 +32,13 @@ public class FormEmpleados {
 
 
     public FormEmpleados() {
+
+        setContentPane(Fempleados);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1006, 400);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);  // Centra la ventana en la pantalla
+
 
         obtener_datos();
         textField1.setEnabled(false);

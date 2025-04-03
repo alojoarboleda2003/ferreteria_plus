@@ -33,6 +33,9 @@ public class InicioFerreteria {
                     FormInventario formInventario = new FormInventario();
                     formInventario.setVisible(true);
                     
+                } else if (seleccion != null && seleccion.equals("Empleados")) {
+                    FormEmpleados formEmpleados = new FormEmpleados();
+                    formEmpleados.setVisible(true);
                 }
 
 

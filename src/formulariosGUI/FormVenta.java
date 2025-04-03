@@ -243,7 +243,7 @@ public class FormVenta  extends JFrame{
                 int id_cliente = Integer.parseInt(idcliente.getText());
                 int id_empleado = Integer.parseInt(idempleado.getText());
                 int id_inventario = Integer.parseInt(textField2.getText());
-                int id_orden = Integer.parseInt(textField2.getText());
+                int id_orden = Integer.parseInt(idcliente.getText());
 
 
                 DetetalleOrden detetalleOrden1 = new DetetalleOrden(0,id_cliente,id_empleado);
