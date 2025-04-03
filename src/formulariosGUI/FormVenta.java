@@ -256,8 +256,9 @@ public class FormVenta  extends JFrame{
                 detetalleOrden1.setId_cliente(id_cliente);
                 detetalleOrden1.setId_empleado(id_empleado);
 
-                detalleOrdenDAO.agregar_cliente(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
                 detalleOrdenDAO.agregar_orden(0,id_cliente,id_empleado);
+                detalleOrdenDAO.agregar_cliente(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
+
             }
         });
         buscador.addKeyListener(new KeyAdapter() {

@@ -83,6 +83,9 @@ public class FormOrden extends JFrame {
                     table2.getValueAt(selectFila, 1);
                     table2.getValueAt(selectFila, 2);
                     table2.getValueAt(selectFila, 3);
+                    table2.getValueAt(selectFila, 4);
+                    table2.getValueAt(selectFila, 5);
+
 
 
 
@@ -185,7 +188,7 @@ public class FormOrden extends JFrame {
                     "JOIN cliente c ON c.id_cliente = d.id_cliente " +
                     "JOIN empleado e ON e.id_empleado = d.id_empleado " +
                     "JOIN inventario r ON r.id_inventario = d.id_inventario " +
-                    "WHERE d.id_orden = ?";
+                    "WHERE d.id_detalle_orden = ?";
             PreparedStatement stmt = con.prepareStatement(query);
 
             stmt.setInt(1, this.idOrden);  // Usamos el ID de la orden pasada como parámetro

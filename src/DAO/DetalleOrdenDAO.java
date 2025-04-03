@@ -30,23 +30,23 @@ public class DetalleOrdenDAO {
 
         try {
             // Consulta para insertar el nombre del cliente
-            String query = "INSERT INTO detalle_orden_compra (id_detalle_orden,id_orden, id_inventario, id_cliente,id_empleado, nombre_cliente,nombre_empleado, cantidad, subtotal, estado) VALUES (?,?,? ,? ,?, ?,?, ?, ?, ?)";
+            String query = "INSERT INTO detalle_orden_compra (id_orden, id_inventario, id_cliente,id_empleado, nombre_cliente,nombre_empleado, cantidad, subtotal, estado) VALUES (?,? ,? ,?, ?,?, ?, ?, ?)";
             stmt = con.prepareStatement(query);
 
 
             DetetalleOrden detalleOrden = new DetetalleOrden();
 
              // Usar la instancia aquí
-            stmt.setInt(1, id_detalle_orden);
-            stmt.setInt(2, id_orden);
-            stmt.setInt(3, id_inventario);
-            stmt.setInt(4, id_cliente);
-            stmt.setInt(5, id_empleado);
-            stmt.setString(6, nombre_cliente);
-            stmt.setString(7, nombre_empleado);
-            stmt.setInt(8, cantidad);
-            stmt.setDouble(9, subtotal);
-            stmt.setString(10, estado);
+
+            stmt.setInt(1, id_orden);
+            stmt.setInt(2, id_inventario);
+            stmt.setInt(3, id_cliente);
+            stmt.setInt(4, id_empleado);
+            stmt.setString(5, nombre_cliente);
+            stmt.setString(6, nombre_empleado);
+            stmt.setInt(7, cantidad);
+            stmt.setDouble(8, subtotal);
+            stmt.setString(9, estado);
 
 
             int filasInsertadas = stmt.executeUpdate();
@@ -59,7 +59,7 @@ public class DetalleOrdenDAO {
         }
     }
 
-    public void agregar_orden(int id_orden, int id_cliente, int id_empleado) {
+    public void agregar_orden( int id_orden, int id_cliente, int id_empleado) {
 
 
         Connection con = conexionBD.getConnection();
@@ -67,7 +67,7 @@ public class DetalleOrdenDAO {
 
         try {
             // Consulta para insertar el nombre del cliente
-            String query = "INSERT INTO orden_compra (id_orden, id_cliente,id_empleado) VALUES (?, ?, ?)";
+            String query = "INSERT INTO orden_compra ( id_cliente,id_empleado) VALUES ( ?, ?)";
             stmt = con.prepareStatement(query);
 
 
@@ -75,9 +75,9 @@ public class DetalleOrdenDAO {
 
             // Usar la instancia aquí
 
-            stmt.setInt(1, id_orden);
-            stmt.setInt(2, id_cliente);
-            stmt.setInt(3, id_empleado);
+
+            stmt.setInt(1, id_cliente);
+            stmt.setInt(2, id_empleado);
 
 
 
