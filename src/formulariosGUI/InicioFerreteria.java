@@ -67,7 +67,5 @@ public class InicioFerreteria {
         frame.setResizable(false);
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
+
 }
