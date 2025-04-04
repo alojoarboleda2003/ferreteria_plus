@@ -34,11 +34,13 @@ public class FormClientes extends JFrame{
     ClienteDAO clienteDAO = new ClienteDAO();
 
     public FormClientes() {
-        setContentPane(Fclientes);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
-        setSize(1006, 400);  // Establece el tamaño de la ventana
-        setResizable(false);  // Establece que la ventana no sea redimensionable
-        setLocationRelativeTo(null);  // Centra la ventana en la pantalla
+        setTitle("Formulario Clientes");
+        setSize(900, 500);  // Ajusta el tamaño a lo que necesites
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);   // Hace que la ventana sea maximizable
+        setResizable(true);
+        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);  // Centra la ventana en la pantalla
 
         obtener_datos();
         textField1.setEnabled(false);
@@ -109,8 +111,17 @@ public class FormClientes extends JFrame{
         });
     }
 
+    private void setClosable(boolean b) {
+    }
 
-        public void clear() {
+    private void setIconifiable(boolean b) {
+    }
+
+    private void setMaximizable(boolean b) {
+    }
+
+
+    public void clear() {
             textField1.setText("");
             textField6.setText("");
             textField2.setText("");
