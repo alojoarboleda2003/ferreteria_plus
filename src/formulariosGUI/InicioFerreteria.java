@@ -88,5 +88,7 @@ public class InicioFerreteria {
     }
 
 
-
+    private void createUIComponents() {
+        contenedor2 = new formulariosGUI.FondoPanel();
+    }
 }
