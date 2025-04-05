@@ -1,5 +1,7 @@
 package formulariosGUI;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +16,10 @@ public class InicioFerreteria {
     private JButton salirButton;
 
     public InicioFerreteria() {
+
         comboBox1.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -40,6 +45,8 @@ public class InicioFerreteria {
 
 
             }
+
+
         });
         salirButton.addActionListener(new ActionListener() {
             @Override
@@ -66,6 +73,7 @@ public class InicioFerreteria {
         frame.setSize(1320, 900);
         frame.setResizable(false);
     }
+
 
 
 }

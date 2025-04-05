@@ -128,10 +128,10 @@
       <item class="javax.swing.JMenuItem" icon="" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
-      <item class="com.toedter.calendar.JCalendar" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="true" auto-create-binding="false" can-attach-label="false" is-container="true">
+      <item class="formulariosGUI.FormDetalleOrden" icon="" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
-      <item class="formulariosGUI.FormDetalleOrden" icon="" removable="true" auto-create-binding="false" can-attach-label="false">
+      <item class="com.toedter.calendar.JDateChooser" icon="com/toedter/calendar/images/JCalendarColor32.gif" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
     </group>
