@@ -134,6 +134,9 @@
       <item class="com.toedter.calendar.JDateChooser" icon="com/toedter/calendar/images/JCalendarColor32.gif" removable="true" auto-create-binding="false" can-attach-label="false">
         <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
       </item>
+      <item class="javax.swing.JDesktopPane" icon="" removable="true" auto-create-binding="false" can-attach-label="false" is-container="true">
+        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="0" />
+      </item>
     </group>
   </component>
 </project>

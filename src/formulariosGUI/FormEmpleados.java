@@ -152,5 +152,8 @@ public class FormEmpleados extends JFrame{
         frame.setSize(1006, 400);
         frame.setResizable(false);
     }
+
+    public void setSelected(boolean b) {
+    }
 }
 

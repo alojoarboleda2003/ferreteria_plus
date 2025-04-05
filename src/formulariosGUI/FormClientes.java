@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class FormClientes extends JInternalFrame{
+public class FormClientes extends JFrame{
 
     private JPanel Fclientes;
     private JTable table1;
@@ -34,14 +34,11 @@ public class FormClientes extends JInternalFrame{
     ClienteDAO clienteDAO = new ClienteDAO();
 
     public FormClientes() {
-        // Configuración básica del formulario
-        setTitle("Formulario Clientes");
-        setSize(1006, 400);  // Puedes ajustar el tamaño según lo necesites
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);  // Centra la ventana en la pantalla
+        setContentPane(Fclientes);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1006, 400);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);
 
         obtener_datos();
         textField1.setEnabled(false);
@@ -110,7 +107,11 @@ public class FormClientes extends JInternalFrame{
                 }
             }
         });
+
+
     }
+
+
 
 
 

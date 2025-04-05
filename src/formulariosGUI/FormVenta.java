@@ -581,4 +581,7 @@ public class FormVenta  extends JFrame{
         frame.setSize(900, 660);
         frame.setResizable(false);
     }
+
+    public void setSelected(boolean b) {
+    }
 }
