@@ -63,7 +63,7 @@ public class InicioFerreteria {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(1320, 900);
+        frame.setSize(1920, 1006);
         frame.setResizable(false);
     }
 
