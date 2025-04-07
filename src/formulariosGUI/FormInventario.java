@@ -2,6 +2,7 @@ package formulariosGUI;
 
 import DAO.InventarioDAO;
 import conexionBD.ConexionBD;
+import modelos.Cliente;
 import modelos.Inventario;
 
 import javax.swing.*;
@@ -10,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class FormInventario extends JFrame{
     private JPanel Finventario;
@@ -27,6 +25,7 @@ public class FormInventario extends JFrame{
     private JButton actualizarButton;
     private JButton eliminarButton;
     private JComboBox categoria1;
+    private JTextField buscar;
     int filas=0;
 
     InventarioDAO inventarioDAO = new InventarioDAO();
@@ -116,6 +115,18 @@ public class FormInventario extends JFrame{
 
             }
         });
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id_inventario = Integer.parseInt(buscar.getText());
+
+
+
+                Cliente cliente = new Cliente(id_inventario);
+                cliente.setCedula(id_inventario);
+                buscar_i();
+            }
+        });
     }
 
         public void clear() {
@@ -166,6 +177,63 @@ public class FormInventario extends JFrame{
             }
 
         }
+
+    public void buscar_i() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID Inventario");
+        model.addColumn("Nombres");
+        model.addColumn("Categoria");
+        model.addColumn("Precio");
+        model.addColumn("Cantidad Disponible");
+        model.addColumn("Proveedor Asociado");
+
+
+        table1.setModel(model);
+        String[] dato = new String[6];
+        Connection con = conexionBD.getConnection();
+
+        try {
+            Statement start = con.createStatement();
+
+            // Si no hay texto en el campo de búsqueda, cargamos todos los productos
+            String query = "SELECT * FROM inventario";
+
+            String nombreProductoSeleccionado = buscar.getText();
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                // Si el campo de búsqueda no está vacío, filtrar por nombre
+                query = "SELECT * FROM inventario WHERE id_inventario = ?";
+            }
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                pstmt.setString(1,   nombreProductoSeleccionado);
+            }
+
+
+
+
+            ResultSet rs = pstmt.executeQuery();
+            model.setRowCount(0);
+
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+                dato[3] = rs.getString(4);
+                dato[4] = rs.getString(5);
+                dato[5] = rs.getString(6);
+
+
+
+                model.addRow(dato);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

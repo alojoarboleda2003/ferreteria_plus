@@ -26,6 +26,9 @@ public class Cliente
     public Cliente(String nombresc, int cedula) {
     }
 
+    public Cliente(int cedula) {
+    }
+
     public int getId_cliente()
     {
         return id_cliente;

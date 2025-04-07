@@ -11,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class FormProveedor extends JFrame {
     private JPanel Fproveedor;
@@ -26,6 +23,7 @@ public class FormProveedor extends JFrame {
     private JButton GUARDARButton;
     private JButton ELIMINARButton;
     private JButton ACTUALIZARButton;
+    private JTextField buscar;
     int filas = 0;
 
     ProveedorDAO proveedorDAO = new ProveedorDAO();
@@ -98,6 +96,18 @@ public class FormProveedor extends JFrame {
                 }
             }
         });
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id_proveedor= Integer.parseInt(buscar.getText());
+
+
+
+                Cliente cliente = new Cliente(id_proveedor);
+                cliente.setCedula(id_proveedor);
+                buscar_p();
+            }
+        });
     }
 
     public void clear() {
@@ -141,6 +151,59 @@ public class FormProveedor extends JFrame {
             e.printStackTrace();
         }
 
+    }
+
+    public void buscar_p() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID Proveedor");
+        model.addColumn("Nombre");
+        model.addColumn("Contacto");
+        model.addColumn("Producto Suministrado");
+
+
+        table1.setModel(model);
+        String[] dato = new String[4];
+        Connection con = conexionBD.getConnection();
+
+        try {
+            Statement start = con.createStatement();
+
+            // Si no hay texto en el campo de búsqueda, cargamos todos los productos
+            String query = "SELECT * FROM proveedor";
+
+            String nombreProductoSeleccionado = buscar.getText();
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                // Si el campo de búsqueda no está vacío, filtrar por nombre
+                query = "SELECT * FROM proveedor WHERE id_proveedor = ?";
+            }
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                pstmt.setString(1,   nombreProductoSeleccionado);
+            }
+
+
+
+
+            ResultSet rs = pstmt.executeQuery();
+            model.setRowCount(0);
+
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+                dato[3] = rs.getString(4);
+
+
+
+                model.addRow(dato);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
