@@ -1,20 +1,31 @@
 package formulariosGUI;
 
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 
 public class InicioFerreteria {
     private JPanel main;
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JComboBox comboBox3;
-    private JLabel ferreteriaPlusLabel;
     private JButton venderButton;
     private JButton salirButton;
+    private JPanel contenedor2;
+    private JDesktopPane container;
 
     public InicioFerreteria() {
+
+
+
+
+
         comboBox1.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -23,7 +34,8 @@ public class InicioFerreteria {
 
                 if (seleccion != null && seleccion.equals("Clientes")) {
                     FormClientes formClientes = new FormClientes();
-                    formClientes.setVisible(true);
+                    formClientes.setVisible(true);  // Hacerlo visible
+
 
                 } else if (seleccion != null && seleccion.equals("Proveedores")) {
                     FormProveedor formProveedor = new FormProveedor();
@@ -32,7 +44,7 @@ public class InicioFerreteria {
                 } else if (seleccion != null && seleccion.equals("Inventario")) {
                     FormInventario formInventario = new FormInventario();
                     formInventario.setVisible(true);
-                    
+
                 } else if (seleccion != null && seleccion.equals("Empleados")) {
                     FormEmpleados formEmpleados = new FormEmpleados();
                     formEmpleados.setVisible(true);
@@ -40,6 +52,8 @@ public class InicioFerreteria {
 
 
             }
+
+
         });
         salirButton.addActionListener(new ActionListener() {
             @Override
@@ -57,6 +71,12 @@ public class InicioFerreteria {
         });
     }
 
+    private void setTitle(String ventanaPrincipal) {
+    }
+
+    private void setDefaultCloseOperation(int exitOnClose) {
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("InicioFerreteria");
         frame.setContentPane(new InicioFerreteria().main);
@@ -67,7 +87,8 @@ public class InicioFerreteria {
         frame.setResizable(false);
     }
 
+
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        contenedor2 = new formulariosGUI.FondoPanel();
     }
 }

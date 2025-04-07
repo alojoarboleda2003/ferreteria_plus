@@ -2,6 +2,7 @@ package formulariosGUI;
 
 import DAO.DetalleOrdenDAO;
 import DAO.InventarioDAO;
+import com.toedter.calendar.JDateChooser;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
 import modelos.DetetalleOrden;
@@ -10,6 +11,7 @@ import modelos.Inventario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
@@ -44,6 +46,7 @@ public class FormVenta  extends JFrame{
     private JTextField idempleado;
     private JComboBox estado1;
     private JTextField idcliente;
+    private JDateChooser JDateChooser2;
     int filas = 0;
     double totalm = 0;
     double totalconiva = 0;
@@ -59,6 +62,7 @@ public class FormVenta  extends JFrame{
 
     public FormVenta() {
         obtener_datos_producto();
+        createUIComponents();
 
         setContentPane(Fventas);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
@@ -106,6 +110,8 @@ public class FormVenta  extends JFrame{
 
             }
         });
+
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +148,7 @@ public class FormVenta  extends JFrame{
 
 
         });
-        
+
         textField8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -224,13 +230,7 @@ public class FormVenta  extends JFrame{
 
             }
         });
-        calendario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-
-            }
-        });
         cobrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -297,6 +297,15 @@ public class FormVenta  extends JFrame{
                 buscar_cliente();
             }
         });
+    }
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        JDateChooser2 = new JDateChooser();
+        JDateChooser2.setDateFormatString("dd/MM/yyyy");  // Establecer formato de fecha
+
+        // Si necesitas un valor predeterminado
+        JDateChooser2.setDate(new java.util.Date());
+        JDateChooser2.setPreferredSize(new Dimension(130, 25));
     }
 
     public void clear() {
@@ -571,5 +580,8 @@ public class FormVenta  extends JFrame{
         frame.setVisible(true);
         frame.setSize(900, 660);
         frame.setResizable(false);
+    }
+
+    public void setSelected(boolean b) {
     }
 }

@@ -38,7 +38,7 @@ public class FormClientes extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
         setSize(1006, 400);  // Establece el tamaño de la ventana
         setResizable(false);  // Establece que la ventana no sea redimensionable
-        setLocationRelativeTo(null);  // Centra la ventana en la pantalla
+        setLocationRelativeTo(null);
 
         obtener_datos();
         textField1.setEnabled(false);
@@ -107,10 +107,16 @@ public class FormClientes extends JFrame{
                 }
             }
         });
+
+
     }
 
 
-        public void clear() {
+
+
+
+
+    public void clear() {
             textField1.setText("");
             textField6.setText("");
             textField2.setText("");

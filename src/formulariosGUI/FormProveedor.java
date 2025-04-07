@@ -152,6 +152,9 @@ public class FormProveedor extends JFrame {
         frame.setSize(900, 300);
         frame.setResizable(false);
     }
+
+    public void setSelected(boolean b) {
+    }
 }
 
 
