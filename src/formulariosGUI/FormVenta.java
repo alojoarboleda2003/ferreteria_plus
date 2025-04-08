@@ -66,7 +66,7 @@ public class FormVenta  extends JFrame{
 
         setContentPane(Fventas);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
-        setSize(1150, 800);  // Establece el tamaño de la ventana
+        setSize(1006, 800);  // Establece el tamaño de la ventana
         setResizable(false);  // Establece que la ventana no sea redimensionable
         setLocationRelativeTo(null);
 
@@ -578,7 +578,7 @@ public class FormVenta  extends JFrame{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(900, 660);
+        frame.setSize(1006, 660);
         frame.setResizable(false);
     }
 
