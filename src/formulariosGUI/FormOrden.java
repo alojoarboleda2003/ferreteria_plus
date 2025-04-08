@@ -29,7 +29,7 @@ public class FormOrden extends JFrame {
     public FormOrden() {
         setContentPane(Forden);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
-        setSize(1006, 400);  // Establece el tamaño de la ventana
+        setSize(1050, 500);  // Establece el tamaño de la ventana
         setResizable(false);  // Establece que la ventana no sea redimensionable
         setLocationRelativeTo(null);
 

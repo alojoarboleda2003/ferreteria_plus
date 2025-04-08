@@ -1,11 +1,8 @@
 package formulariosGUI;
 
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
 
 public class InicioFerreteria {
     private JPanel main;
@@ -15,6 +12,7 @@ public class InicioFerreteria {
     private JButton venderButton;
     private JButton salirButton;
     private JPanel contenedor2;
+    private JButton ordenDeCompraButton;
     private JDesktopPane container;
 
     public InicioFerreteria() {
@@ -67,6 +65,13 @@ public class InicioFerreteria {
             public void actionPerformed(ActionEvent e) {
                 FormVenta formVenta = new FormVenta();
                 formVenta.setVisible(true);
+            }
+        });
+        ordenDeCompraButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FormOrden formOrden = new FormOrden();
+                formOrden.setVisible(true);
             }
         });
     }
