@@ -163,6 +163,7 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                guardar_datos();
 
             }
         });
@@ -241,29 +242,6 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String nombre_cliente = Ccedula.getText();
-                String nombre_empleado = nombreE.getText();
-                int cantidad = Integer.parseInt(cant_venta.getText());
-                double subtotal = Double.parseDouble(textField8.getText());
-                String estado = (String) estado1.getSelectedItem();
-                int id_cliente = Integer.parseInt(idcliente.getText());
-                int id_empleado = Integer.parseInt(idempleado.getText());
-                int id_inventario = Integer.parseInt(textField2.getText());
-                int id_orden = Integer.parseInt(idcliente.getText());
-
-
-                DetetalleOrden detetalleOrden1 = new DetetalleOrden(0,id_cliente,id_empleado);
-                DetetalleOrden detetalleOrden = new DetetalleOrden(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
-                detetalleOrden.setNombre_cliente(nombre_cliente);
-                detetalleOrden.setNombre_cliente(nombre_empleado);
-                detetalleOrden.setCantidad(cantidad);
-                detetalleOrden.setSubtotal(subtotal);
-                detetalleOrden.setEstado(estado);
-                detetalleOrden1.setId_cliente(id_cliente);
-                detetalleOrden1.setId_empleado(id_empleado);
-
-                detalleOrdenDAO.agregar_orden(0,id_cliente,id_empleado);
-                detalleOrdenDAO.agregar_cliente(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
 
 
             }
@@ -387,10 +365,19 @@ public class FormVenta  extends JFrame{
 
     }
 
+
     public void agregar_datos_p() {
         DefaultTableModel model = (DefaultTableModel) productosventa.getModel();
 
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int id_producto = Integer.parseInt((String) model.getValueAt(i, 0));
+            String nombre = (String) model.getValueAt(i,1);
+            int cantidad = Integer.parseInt((String) model.getValueAt(i, 2)); // Cantidad
+            double subtotal = Double.parseDouble((String) model.getValueAt(i, 3)); // Subtotal
 
+
+
+        }
 
         productosventa.setModel(model);
         String[] dato = new String[4];
@@ -430,6 +417,73 @@ public class FormVenta  extends JFrame{
         }
 
     }
+
+    public void guardar_datos() {
+        DefaultTableModel model = (DefaultTableModel) productosventa.getModel();
+
+        // Establecemos la conexión a la base de datos
+        Connection con = conexionBD.getConnection();
+
+        // Declaramos el id_orden fuera del loop
+        int id_orden = 0;
+
+        try {
+            // Primero insertamos la orden en la tabla de órdenes (no tenemos el id_orden aún, así que lo insertamos vacío)
+            String query = "INSERT INTO orden_compra (id_cliente, id_empleado) VALUES (?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            // Suponemos que ya tienes los valores de id_cliente y id_empleado desde los campos de texto
+            int id_cliente = Integer.parseInt(idcliente.getText());  // Ejemplo
+            int id_empleado = Integer.parseInt(idempleado.getText());  // Ejemplo
+
+            pstmt.setInt(1, id_cliente);
+            pstmt.setInt(2, id_empleado);
+
+            // Ejecutamos la inserción para obtener el id_orden
+            pstmt.executeUpdate();
+
+            // Obtener el id_orden generado
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                id_orden = rs.getInt(1);  // El id_orden generado automáticamente
+            }
+
+            // Ahora insertamos los productos en la tabla detalle_orden_compra
+            for (int i = 0; i < model.getRowCount(); i++) {
+                int id_inventario = Integer.parseInt((String) model.getValueAt(i, 0));  // ID Producto
+                int cantidad = Integer.parseInt((String) model.getValueAt(i, 2));      // Cantidad
+                double subtotal = Double.parseDouble((String) model.getValueAt(i, 3)); // Subtotal
+
+                // Insertar en la tabla detalle_orden_compra con el id_orden generado
+                String detalleQuery = "INSERT INTO detalle_orden_compra (id_orden, id_inventario, id_cliente, id_empleado, cantidad, subtotal, estado) VALUES (?, ?, ?, ?, ?, ?, 'pendiente')";
+                PreparedStatement pstmtDetalle = con.prepareStatement(detalleQuery);
+                pstmtDetalle.setInt(1, id_orden);  // Usamos el id_orden generado
+                pstmtDetalle.setInt(2, id_inventario);  // ID Producto
+                pstmtDetalle.setInt(3, id_cliente);  // ID Cliente
+                pstmtDetalle.setInt(4, id_empleado);  // ID Empleado
+                pstmtDetalle.setInt(5, cantidad);  // Cantidad
+                pstmtDetalle.setDouble(6, subtotal);  // Subtotal
+
+                // Ejecutamos la inserción para el detalle de la orden
+                pstmtDetalle.executeUpdate();
+
+                // Actualizamos el inventario después de agregar la venta
+                actualizarInventario(id_inventario, cantidad); // Reducimos la cantidad en el inventario
+            }
+
+            // Si todo salió bien, puedes limpiar la tabla o realizar alguna otra acción
+            model.setRowCount(0);  // Limpiamos la tabla de la interfaz (si lo deseas)
+
+            // Mostrar un mensaje de éxito
+            JOptionPane.showMessageDialog(null, "Venta registrada correctamente.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     public void actualizarInventario(int idProducto, int cantidadVendida) {
         Connection con = conexionBD.getConnection();

@@ -530,7 +530,7 @@ public class FormOrden extends JFrame {
                     "d.cantidad, d.subtotal, d.estado " +
                     "FROM detalle_orden_compra d " +
                     "JOIN inventario r ON r.id_inventario = d.id_inventario " +
-                    "WHERE d.id_detalle_orden = ?";
+                    "WHERE d.id_orden = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, idOrden);  // Usamos el ID de la orden pasada como parámetro
             ResultSet rs = stmt.executeQuery();

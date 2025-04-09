@@ -56,7 +56,7 @@ public class DetalleOrdenDAO {
 
         try {
             // Consulta para insertar el nombre del cliente
-            String query = "INSERT INTO detalle_orden_compra (id_orden, id_inventario, id_cliente,id_empleado, nombre_cliente,nombre_empleado, cantidad, subtotal, estado) VALUES (?,? ,? ,?, ?,?, ?, ?, ?)";
+            String query = "INSERT INTO detalle_orden_compra (id_orden, id_inventario, id_cliente,id_empleado, cantidad, subtotal, estado) VALUES ( ,? ,?, ?,?, ?, ?, ?)";
             stmt = con.prepareStatement(query);
 
 
@@ -68,11 +68,9 @@ public class DetalleOrdenDAO {
             stmt.setInt(2, id_inventario);
             stmt.setInt(3, id_cliente);
             stmt.setInt(4, id_empleado);
-            stmt.setString(5, nombre_cliente);
-            stmt.setString(6, nombre_empleado);
-            stmt.setInt(7, cantidad);
-            stmt.setDouble(8, subtotal);
-            stmt.setString(9, estado);
+            stmt.setInt(5, cantidad);
+            stmt.setDouble(6, subtotal);
+            stmt.setString(7, estado);
 
 
             int filasInsertadas = stmt.executeUpdate();
