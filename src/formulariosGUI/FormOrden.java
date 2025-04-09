@@ -212,6 +212,8 @@ public class FormOrden extends JFrame {
                 PreparedStatement pst = null;
                 ResultSet rs = null;
                 String nombreEmpleado = "";
+                String nombreSubtotal = "";
+
 
                 try {
                     int row2 = table2.getSelectedRow();  // Obtener la fila seleccionada
@@ -231,6 +233,22 @@ public class FormOrden extends JFrame {
                         nombreEmpleado = rs.getString("nombre_empleado");
                     } else {
                         System.out.println("No se encontró el nombre del empleado.");
+                    }
+
+                    int row3 = table2.getSelectedRow();  // Obtener la fila seleccionada
+                    Object selectedValue3 = table2.getValueAt(row3, 0);  // Obtener el valor de la primera columna
+                    int table2Value3 = Integer.parseInt(selectedValue3.toString());
+                    // Obtener el nombre del empleado desde la base de datos
+                    con = conexionBD.getConnection();
+                    pst = con.prepareStatement("SELECT subtotal FROM detalle_orden_compra WHERE id_detalle_orden = ?");
+                    pst.setInt(1, table2Value3);  // Establecer el ID del empleado
+                    rs = pst.executeQuery();
+
+                    // Verifica si se obtuvo el nombre del empleado
+                    if (rs.next()) {
+                        nombreSubtotal = String.valueOf(Double.parseDouble(rs.getString("subtotal")));
+                    } else {
+                        System.out.println("No se encontró el subtotal de la orden.");
                     }
 
                     String ruta = System.getProperty("user.home") + "/Desktop/Factura.pdf";
@@ -253,12 +271,12 @@ public class FormOrden extends JFrame {
                     // Agregar un título
                     Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
                     Font fontinit = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
-                    Paragraph ln = new Paragraph("--------------------------------------------------------------------------", fontTitulo);
+                    Paragraph ln = new Paragraph("--------------------------------------------------------------------------", fontinit);
                     Paragraph titulo = new Paragraph("Ferreteria Style True", fontTitulo);
                     Paragraph init = new Paragraph("Nit 28475232003-3", fontinit);
                     Paragraph lugar = new Paragraph("CALLE 13 AVENIDA SUR  #45", fontinit);
                     Paragraph tel = new Paragraph("Tel: 3176741761", fontinit);
-                    Paragraph la= new Paragraph("--------------------------------------------------------------------------", fontTitulo);
+                    Paragraph la= new Paragraph("--------------------------------------------------------------------------", fontinit);
 
                     //CENTRAR
                     ln.setAlignment(Element.ALIGN_CENTER);
@@ -295,7 +313,7 @@ public class FormOrden extends JFrame {
                     Paragraph fecha = new Paragraph();
                     fecha.add(new Chunk("Fecha Creacion: ", fontNegrita));
                     fecha.add(new Chunk(fechaf, fontNormal));
-                    Paragraph la2= new Paragraph("--------------------------------------------------------------------------", fontTitulo);
+                    Paragraph la2= new Paragraph("--------------------------------------------------------------------------", fontinit);
                     fecha.setAlignment(Element.ALIGN_CENTER);
                     la2.setAlignment(Element.ALIGN_CENTER);
                     document.add(fecha);
@@ -358,6 +376,8 @@ public class FormOrden extends JFrame {
                     cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                     tabla.addCell(cell);
 
+
+
                     try {
                         // Obtener el valor desde la tabla2 (por ejemplo, un JTable)
                         int row = table2.getSelectedRow();  // Obtener la fila seleccionada
@@ -404,6 +424,26 @@ public class FormOrden extends JFrame {
                         }
                     }
                     JOptionPane.showMessageDialog(null, "Factura creada Exitosamente.");
+
+
+                    // Agregar un espacio después del título
+                    document.add(Chunk.NEWLINE);
+
+                    Paragraph la3= new Paragraph("--------------------------------------------------------------------------", fontinit);
+                    // Crear el párrafo del encargado con dos partes
+                    Paragraph subt = new Paragraph();
+                    Paragraph iva = new Paragraph();
+                    iva.add(new Chunk("IVA : 19% ", fontNegrita));
+                    subt.add(new Chunk("TOTAL: ", fontNegrita));
+                    subt.add(new Chunk(String.valueOf(nombreSubtotal), fontNormal));
+
+                    subt.setAlignment(Element.ALIGN_RIGHT);
+                    iva.setAlignment(Element.ALIGN_RIGHT);
+                    la3.setAlignment(Element.ALIGN_RIGHT);
+                    document.add(la3);
+                    document.add(iva);
+                    document.add(subt);
+
 
                     document.close();
 
