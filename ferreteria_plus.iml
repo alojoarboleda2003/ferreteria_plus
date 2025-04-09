@@ -21,5 +21,6 @@
         <jarDirectory url="file://$MODULE_DIR$/lib/jcalendar" recursive="false" />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="pdf" level="project" />
   </component>
 </module>

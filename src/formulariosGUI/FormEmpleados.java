@@ -54,6 +54,7 @@ public class FormEmpleados extends JFrame{
                 obtener_datos();
                 clear();
 
+
             }
         });
 
@@ -70,6 +71,7 @@ public class FormEmpleados extends JFrame{
                 obtener_datos();
                 clear();
 
+
             }
         });
         ELIMINARButton.addActionListener(new ActionListener() {
@@ -79,6 +81,7 @@ public class FormEmpleados extends JFrame{
                 empleadoDAO.eliminar(id_empleado);
                 obtener_datos();
                 clear();
+
 
             }
         });
@@ -109,6 +112,7 @@ public class FormEmpleados extends JFrame{
                 Cliente cliente = new Cliente(id_empleado);
                 cliente.setCedula(id_empleado);
                 buscar_e();
+
             }
         });
     }

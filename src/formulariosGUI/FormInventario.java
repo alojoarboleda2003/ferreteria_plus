@@ -55,6 +55,7 @@ public class FormInventario extends JFrame{
                 clear();
 
 
+
             }
         });
 
@@ -77,6 +78,7 @@ public class FormInventario extends JFrame{
                 clear();
 
 
+
             }
         });
         eliminarButton.addActionListener(new ActionListener() {
@@ -86,6 +88,7 @@ public class FormInventario extends JFrame{
                 inventarioDAO.eliminar(id_inventario);
                 obtener_datos();
                 clear();
+
 
             }
         });
@@ -113,6 +116,7 @@ public class FormInventario extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
             }
         });
         buscar.addActionListener(new ActionListener() {
@@ -125,6 +129,7 @@ public class FormInventario extends JFrame{
                 Cliente cliente = new Cliente(id_inventario);
                 cliente.setCedula(id_inventario);
                 buscar_i();
+
             }
         });
     }

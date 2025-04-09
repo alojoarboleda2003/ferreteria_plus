@@ -85,6 +85,7 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
             }
 
         });
@@ -106,6 +107,7 @@ public class FormVenta  extends JFrame{
                 agregar_datos_p();
                 psubtotal();
                 clear();
+
 
 
             }
@@ -142,6 +144,7 @@ public class FormVenta  extends JFrame{
                 } else {
                     JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún producto para eliminar.");
                 }
+
             }
 
 
@@ -153,11 +156,13 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
             }
         });
         cobrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
             }
         });
@@ -196,6 +201,7 @@ public class FormVenta  extends JFrame{
                 subtotalf.setText(String.valueOf(totalr));
 
 
+
             }
 
 
@@ -218,7 +224,6 @@ public class FormVenta  extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
 
-
             }
 
 
@@ -226,6 +231,7 @@ public class FormVenta  extends JFrame{
         Ccedula.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
 
             }
@@ -259,6 +265,7 @@ public class FormVenta  extends JFrame{
                 detalleOrdenDAO.agregar_orden(0,id_cliente,id_empleado);
                 detalleOrdenDAO.agregar_cliente(0,id_orden,id_inventario,id_cliente,id_empleado,nombre_cliente,nombre_empleado,cantidad,subtotal,estado);
 
+
             }
         });
         buscador.addKeyListener(new KeyAdapter() {
@@ -270,6 +277,7 @@ public class FormVenta  extends JFrame{
         nombreE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
 
             }
         });
@@ -295,6 +303,7 @@ public class FormVenta  extends JFrame{
                 cliente.setNombre(nombresc);
                 cliente.setCedula(cedula);
                 buscar_cliente();
+
             }
         });
     }

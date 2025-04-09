@@ -51,6 +51,7 @@ public class InicioFerreteria {
                 }
 
 
+
             }
 
 
@@ -60,6 +61,7 @@ public class InicioFerreteria {
             public void actionPerformed(ActionEvent e) {
 
                 System.exit(0);
+
             }
         });
         venderButton.addActionListener(new ActionListener() {
@@ -67,6 +69,7 @@ public class InicioFerreteria {
             public void actionPerformed(ActionEvent e) {
                 FormVenta formVenta = new FormVenta();
                 formVenta.setVisible(true);
+
             }
         });
         ordenDeCompraButton.addActionListener(new ActionListener() {
@@ -74,6 +77,7 @@ public class InicioFerreteria {
             public void actionPerformed(ActionEvent e) {
                 FormOrden formOrden = new FormOrden();
                 formOrden.setVisible(true);
+
             }
         });
     }

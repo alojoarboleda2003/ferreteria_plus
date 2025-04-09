@@ -51,6 +51,7 @@ public class FormProveedor extends JFrame {
                 obtener_datos();
                 clear();
 
+
             }
         });
         ACTUALIZARButton.addActionListener(new ActionListener() {
@@ -66,6 +67,7 @@ public class FormProveedor extends JFrame {
                 obtener_datos();
                 clear();
 
+
             }
         });
         ELIMINARButton.addActionListener(new ActionListener() {
@@ -75,6 +77,7 @@ public class FormProveedor extends JFrame {
                 proveedorDAO.eliminar(id_proveedor);
                 obtener_datos();
                 clear();
+
 
             }
         });
@@ -106,6 +109,7 @@ public class FormProveedor extends JFrame {
                 Cliente cliente = new Cliente(id_proveedor);
                 cliente.setCedula(id_proveedor);
                 buscar_p();
+
             }
         });
     }

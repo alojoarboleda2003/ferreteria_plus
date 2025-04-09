@@ -56,6 +56,7 @@ public class FormClientes extends JFrame{
                 obtener_datos();
                 clear();
 
+
             }
         });
         ACTUALIZARButton.addActionListener(new ActionListener() {
@@ -73,6 +74,7 @@ public class FormClientes extends JFrame{
                 obtener_datos();
                 clear();
 
+
             }
         });
         ELIMINARButton.addActionListener(new ActionListener() {
@@ -82,6 +84,7 @@ public class FormClientes extends JFrame{
                 clienteDAO.eliminar(id);
                 obtener_datos();
                 clear();
+
             }
 
 
@@ -117,6 +120,7 @@ public class FormClientes extends JFrame{
                 Cliente cliente = new Cliente(cedula);
                 cliente.setCedula(cedula);
                 buscar_c();
+
 
 
             }

@@ -25,6 +25,8 @@ public class MENU extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Opción Abrir seleccionada.");
+
+
             }
         });
 
@@ -32,6 +34,8 @@ public class MENU extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Opción Guardar seleccionada.");
+
+
             }
         });
 
@@ -39,6 +43,8 @@ public class MENU extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);  // Cierra la aplicación
+
+
             }
         });
 
