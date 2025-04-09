@@ -429,15 +429,17 @@ public class FormVenta  extends JFrame{
 
         try {
             // Primero insertamos la orden en la tabla de órdenes (no tenemos el id_orden aún, así que lo insertamos vacío)
-            String query = "INSERT INTO orden_compra (id_cliente, id_empleado) VALUES (?, ?)";
+            String query = "INSERT INTO orden_compra (id_cliente, id_empleado,total_orden) VALUES (?, ?,?)";
             PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             // Suponemos que ya tienes los valores de id_cliente y id_empleado desde los campos de texto
             int id_cliente = Integer.parseInt(idcliente.getText());  // Ejemplo
             int id_empleado = Integer.parseInt(idempleado.getText());  // Ejemplo
+            double total_orden = Double.parseDouble(textField8.getText());
 
             pstmt.setInt(1, id_cliente);
             pstmt.setInt(2, id_empleado);
+            pstmt.setDouble(3,total_orden);
 
             // Ejecutamos la inserción para obtener el id_orden
             pstmt.executeUpdate();

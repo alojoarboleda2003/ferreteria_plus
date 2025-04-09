@@ -3,8 +3,6 @@ package formulariosGUI;
 import DAO.DetalleOrdenDAO;
 import com.itextpdf.text.Font;
 import conexionBD.ConexionBD;
-import modelos.Cliente;
-import modelos.DetetalleOrden;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,22 +12,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.*;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.*;
 import java.util.Date;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.*;
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-
-import static java.awt.SystemColor.text;
 
 
 public class FormOrden extends JFrame {
@@ -40,7 +31,7 @@ public class FormOrden extends JFrame {
     private JTextField cliente;
     private JTable table2;
     private JComboBox estado2;
-    private JTextField total;
+    private JTextField totalg;
     private JScrollPane Tproductos;
     private JButton seleccionarButton;
     private JButton generarFacturaButton;
@@ -170,7 +161,7 @@ public class FormOrden extends JFrame {
 
 
         });
-        total.addActionListener(new ActionListener() {
+        totalg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -180,18 +171,7 @@ public class FormOrden extends JFrame {
         seleccionarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Obtenemos la fila seleccionada en table1
-                int selectedRow = table2.getSelectedRow();
-
-                if (selectedRow >= 0) {
-                    // Obtenemos el ID de la orden de la columna correspondiente
-                    // Asegúrate de que la columna 0 tiene el ID de la orden en tu JTable
-                    idOrden = Integer.parseInt(table2.getValueAt(selectedRow, 0).toString());
-
-                    mostrar_subtotal(idOrden);
-
-
-                }
+                
 
 
             }
@@ -559,7 +539,7 @@ public class FormOrden extends JFrame {
             con = conexionBD.getConnection();
 
             // Consulta SQL con los espacios correctamente colocados
-            String query = "SELECT c.nombre AS nombre_cliente, e.nombre AS nombre_empleado " +
+            String query = "SELECT c.nombre AS nombre_cliente, e.nombre AS nombre_empleado, o.total_orden " +
                     "FROM orden_compra o " +
                     "JOIN cliente c ON o.id_cliente = c.id_cliente " +
                     "JOIN empleado e ON o.id_empleado = e.id_empleado " +
@@ -574,10 +554,12 @@ public class FormOrden extends JFrame {
             if (rs.next()) {
                 String nombreCliente = rs.getString("nombre_cliente");
                 String nombreEmpleado = rs.getString("nombre_empleado");
+                String total = rs.getString("total_orden");
 
                 // Establecer los valores en los JTextFields
                 cliente.setText(nombreCliente);
                 encargado.setText(nombreEmpleado);
+                totalg.setText(total);
 
             } else {
                 System.out.println("Cliente o empleado no encontrados.");
@@ -611,12 +593,12 @@ public class FormOrden extends JFrame {
 
 
                 // Establecer los valores en los JTextFields
-                total.setText(String.valueOf(subtotales));
+                totalg.setText(String.valueOf(subtotales));
 
 
             } else {
                 System.out.println("subtotal no encontrados.");
-                total.setText("No encontrado");
+                totalg.setText("No encontrado");
 
             }
         } catch (SQLException e) {
