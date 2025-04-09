@@ -379,39 +379,40 @@ public class FormOrden extends JFrame {
 
 
                     try {
-                        // Obtener el valor desde la tabla2 (por ejemplo, un JTable)
-                        int row = table2.getSelectedRow();  // Obtener la fila seleccionada
-                        Object selectedValue = table2.getValueAt(row, 0);  // Obtener el valor de la primera columna
-                        int table2Value = Integer.parseInt(selectedValue.toString());  // Convertir a tipo adecuado
+                        for (int i = 0; i < table2.getRowCount(); i++) {
+                            Object selectedValue = table2.getValueAt(i, 0);
+                            int table2Value = Integer.parseInt(selectedValue.toString());// Convertir a tipo adecuado
 
-                        con = conexionBD.getConnection();
-                        pst = con.prepareStatement("SELECT d.id_detalle_orden, " +
-                                "r.nombres AS nombre_inventario, " +
-                                "d.cantidad, d.subtotal, d.estado " +
-                                "FROM detalle_orden_compra d " +
-                                "JOIN inventario r ON r.id_inventario = d.id_inventario " +
-                                "WHERE d.id_detalle_orden = ?");
+                            con = conexionBD.getConnection();
+                            pst = con.prepareStatement("SELECT d.id_detalle_orden, " +
+                                    "r.nombres AS nombre_inventario, " +
+                                    "d.cantidad, d.subtotal, d.estado " +
+                                    "FROM detalle_orden_compra d " +
+                                    "JOIN inventario r ON r.id_inventario = d.id_inventario " +
+                                    "WHERE d.id_detalle_orden = ?");
 
-                        // Establecer el valor de table2Value como parámetro de la consulta
-                        pst.setInt(1, table2Value);
+                            // Establecer el valor de table2Value como parámetro de la consulta
+                            pst.setInt(1, table2Value);
 
-                        rs = pst.executeQuery();
-                        boolean datosAgregados = false;
-                        if (rs.next()) {
-                            do {
-                                tabla.addCell(rs.getString(1));
-                                tabla.addCell(rs.getString(2));
-                                tabla.addCell(rs.getString(3));
-                                tabla.addCell(rs.getString(4));
-                                tabla.addCell(rs.getString(5));
-                                datosAgregados = true;
-                            } while (rs.next());
-                            document.add(tabla);
+
+                            rs = pst.executeQuery();
+                            boolean datosAgregados = false;
+                            if (rs.next()) {
+                                do {
+                                    tabla.addCell(rs.getString(1));
+                                    tabla.addCell(rs.getString(2));
+                                    tabla.addCell(rs.getString(3));
+                                    tabla.addCell(rs.getString(4));
+                                    tabla.addCell(rs.getString(5));
+                                    datosAgregados = true;
+                                } while (rs.next());
+
+                            }
                         }
+                        document.add(tabla);
 
-                        if (!datosAgregados) {
-                            System.out.println("No se agregaron datos a la tabla.");
-                        }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
