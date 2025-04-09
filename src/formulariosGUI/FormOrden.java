@@ -151,31 +151,24 @@ public class FormOrden extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Obtener la fila seleccionada
-                int filaSeleccionada = table2.getSelectedRow();
+                // Obtener el estado seleccionado del JComboBox
+                String estado = (String) estado2.getSelectedItem();
 
-                // Verificar si se seleccionó alguna fila
-                if (filaSeleccionada != -1) {
+                // Recorrer todas las filas de la tabla
+                for (int i = 0; i < table2.getRowCount(); i++) {
                     // Obtener el valor de la columna "id_detalle_orden" (suponiendo que es la primera columna)
-                    String idDetalleOrdenStr = (String) table2.getValueAt(filaSeleccionada, 0); // Obtiene el valor como String
+                    String idDetalleOrdenStr = (String) table2.getValueAt(i, 0); // Obtiene el valor como String
                     int id_detalle_orden = Integer.parseInt(idDetalleOrdenStr);
 
-                    // Mostrar el id_detalle_orden o hacer algo con él
-                    System.out.println("ID Detalle Orden seleccionado: " + id_detalle_orden);
-
-                    // Aquí puedes llamar a tu DAO o a cualquier función que necesite este id
-                    String estado = (String) estado2.getSelectedItem(); // Estado seleccionado en el JComboBox
-
-                    // Llamar al método de actualización con el id_detalle_orden y estado
+                    // Llamar al método de actualización con el id_detalle_orden y el estado seleccionado
                     detalleOrdenDAO.actualizar(id_detalle_orden, estado);
-                } else {
-                    // Si no hay fila seleccionada, puedes mostrar un mensaje
-                    JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila de la tabla.");
                 }
 
-
-
             }
+
+
+
+
         });
         total.addActionListener(new ActionListener() {
             @Override
