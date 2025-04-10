@@ -35,6 +35,9 @@ public class FormOrden extends JFrame {
     private JScrollPane Tproductos;
     private JButton seleccionarButton;
     private JButton generarFacturaButton;
+    private JTextField buscarorden;
+    private JTextField ultimaorden;
+    private JButton mostrarButton;
     int filas = 0;
     int filas1 = 0;
     int idOrden = 0;
@@ -442,6 +445,19 @@ public class FormOrden extends JFrame {
             }
 
         });
+        buscarorden.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            buscar_orden();
+            }
+        });
+
+        mostrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarUltimaOrden();
+            }
+        });
     }
 
 
@@ -542,7 +558,7 @@ public class FormOrden extends JFrame {
             con = conexionBD.getConnection();
 
             // Consulta SQL con los espacios correctamente colocados
-            String query = "SELECT c.nombre AS nombre_cliente, e.nombre AS nombre_empleado, o.total_orden " +
+            String query = "SELECT c.nombre AS nombre_cliente, e.nombre AS nombre_empleado " +  // espacio al final
                     "FROM orden_compra o " +
                     "JOIN cliente c ON o.id_cliente = c.id_cliente " +
                     "JOIN empleado e ON o.id_empleado = e.id_empleado " +
@@ -557,12 +573,12 @@ public class FormOrden extends JFrame {
             if (rs.next()) {
                 String nombreCliente = rs.getString("nombre_cliente");
                 String nombreEmpleado = rs.getString("nombre_empleado");
-                String total = rs.getString("total_orden");
+
 
                 // Establecer los valores en los JTextFields
                 cliente.setText(nombreCliente);
                 encargado.setText(nombreEmpleado);
-                totalg.setText(total);
+
 
             } else {
                 System.out.println("Cliente o empleado no encontrados.");
@@ -637,6 +653,88 @@ public class FormOrden extends JFrame {
 
         return nombreEmpleado;
     }
+
+    public void buscar_orden() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID Orden");
+        model.addColumn("Cliente");
+        model.addColumn("Encargado");
+
+
+
+        table1.setModel(model);
+        String[] dato = new String[6];
+        Connection con = conexionBD.getConnection();
+
+        try {
+            Statement start = con.createStatement();
+
+            // Si no hay texto en el campo de búsqueda, cargamos todos los productos
+            String query = "SELECT * FROM orden_compra";
+
+            String nombreProductoSeleccionado = buscarorden.getText();
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                // Si el campo de búsqueda no está vacío, filtrar por nombre
+                query = "SELECT * FROM orden_compra WHERE id_orden = ?";
+            }
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            if (!nombreProductoSeleccionado.isEmpty()) {
+                pstmt.setString(1,   nombreProductoSeleccionado);
+            }
+
+
+
+
+            ResultSet rs = pstmt.executeQuery();
+            model.setRowCount(0);
+
+
+            while (rs.next()) {
+                dato[0] = rs.getString(1);
+                dato[1] = rs.getString(2);
+                dato[2] = rs.getString(3);
+
+
+
+                model.addRow(dato);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarUltimaOrden() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID Orden");
+        model.addColumn("Cliente");
+        model.addColumn("Encargado");
+
+        table1.setModel(model);
+        String[] dato = new String[3];
+        Connection con = conexionBD.getConnection();
+
+        try {
+            String query = "SELECT * FROM orden_compra ORDER BY id_orden DESC LIMIT 5";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                dato[0] = rs.getString("id_orden");
+                dato[1] = rs.getString("id_cliente");
+                dato[2] = rs.getString("id_empleado");
+                model.addRow(dato);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

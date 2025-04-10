@@ -5,7 +5,6 @@ import DAO.InventarioDAO;
 import com.toedter.calendar.JDateChooser;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
-import modelos.DetetalleOrden;
 import modelos.Empleado;
 import modelos.Inventario;
 
@@ -491,19 +490,38 @@ public class FormVenta  extends JFrame{
         Connection con = conexionBD.getConnection();
         PreparedStatement stmt = null;
         try {
-
-            String query = "UPDATE inventario SET cant_disponible = cant_disponible - ? WHERE id_inventario = ?";
+            String query = "UPDATE inventario SET cant_disponible = cant_disponible - ? " +
+                    "WHERE id_inventario = ? AND cant_disponible >= ?";
             stmt = con.prepareStatement(query);
             stmt.setInt(1, cantidadVendida);
             stmt.setInt(2, idProducto);
+            stmt.setInt(3, cantidadVendida);  // ¡Este te estaba faltando!
 
             // Ejecutamos la actualización
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
-                System.out.println("Inventario actualizado exitosamente.");
+                JOptionPane.showMessageDialog(null,"Inventario actualizado exitosamente.");
+
+                // Verificamos si la cantidad actual es menor a 5
+                String checkQuery = "SELECT cant_disponible FROM inventario WHERE id_inventario = ?";
+                PreparedStatement checkStmt = con.prepareStatement(checkQuery);
+                checkStmt.setInt(1, idProducto);
+                ResultSet rs = checkStmt.executeQuery();
+
+                if (rs.next()) {
+                    int cantRestante = rs.getInt("cant_disponible");
+                    if (cantRestante < 5) {
+                        JOptionPane.showMessageDialog(null,"⚠️ Alerta: el inventario del producto ID " + idProducto +
+                                " está por agotarse. Cantidad disponible: " + cantRestante);
+                    }
+                }
+
+                rs.close();
+                checkStmt.close();
             } else {
-                System.out.println("Error al actualizar el inventario.");
+                System.out.println("No hay suficiente inventario para realizar la venta.");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

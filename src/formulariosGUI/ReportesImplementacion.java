@@ -32,9 +32,9 @@ public class ReportesImplementacion {
 
             switch (periodo.toLowerCase()) {
                 case "diario":
-                    sql =  "SELECT DATE(fecha) as fecha, SUM(cantidad) as cantidad, COUNT(*) as num_ordenes " +
+                    sql =  "SELECT DATE(fecha) AS fecha, SUM(cantidad) AS cantidad, COUNT(*) AS num_ordenes " +
                             "FROM ventas " +
-                            "WHERE fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) " +
+                            "WHERE fecha >= CURDATE() - INTERVAL 30 DAY " +
                             "GROUP BY DATE(fecha) " +
                             "ORDER BY fecha DESC";
                     break;
