@@ -1,6 +1,6 @@
 package DAO;
 
-public class ReporteDAO
+public class ReportesDAO
 {
     public void insertarReporte()
     {

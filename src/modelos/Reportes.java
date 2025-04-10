@@ -1,13 +1,13 @@
 package modelos;
 
-public class Reporte
+public class Reportes
 {
     public int id_reporte;
     public int id_venta;
     public int id_inventario;
     public int id_cliente;
 
-    public Reporte(int id_reporte, int id_venta, int id_inventario, int id_cliente)
+    public Reportes(int id_reporte, int id_venta, int id_inventario, int id_cliente)
     {
         this.id_reporte = id_reporte;
         this.id_venta = id_venta;
