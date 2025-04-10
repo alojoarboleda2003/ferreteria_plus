@@ -1,7 +1,5 @@
 package formulariosGUI;
 
-import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +8,11 @@ public class InicioFerreteria {
     private JPanel main;
     private JComboBox comboBox1;
     private JComboBox comboBox2;
-    private JComboBox comboBox3;
     private JButton venderButton;
     private JButton salirButton;
     private JPanel contenedor2;
     private JButton ordenDeCompraButton;
+    private JButton reportesButton;
     private JDesktopPane container;
 
     public InicioFerreteria() {
@@ -78,6 +76,13 @@ public class InicioFerreteria {
                 FormOrden formOrden = new FormOrden();
                 formOrden.setVisible(true);
 
+            }
+        });
+        reportesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Reportes reportes = new Reportes();
+                reportes.setVisible(true);
             }
         });
     }

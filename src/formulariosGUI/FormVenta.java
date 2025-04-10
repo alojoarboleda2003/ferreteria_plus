@@ -300,10 +300,10 @@ public class FormVenta  extends JFrame{
         textField3.setText("");
         textField4.setText("");
         textField1.setText("");
-
+        textField2.setText("");
         subtotalf.setText("");
-        DefaultTableModel model = (DefaultTableModel) datosproducto.getModel();
-        model.setRowCount(0);
+        cant_venta.setText("");
+
 
     }
 

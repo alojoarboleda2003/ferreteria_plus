@@ -145,15 +145,18 @@ public class FormOrden extends JFrame {
                 // Obtener el estado seleccionado del JComboBox
                 String estado = (String) estado2.getSelectedItem();
 
+
+
                 // Recorrer todas las filas de la tabla
                 for (int i = 0; i < table2.getRowCount(); i++) {
                     // Obtener el valor de la columna "id_detalle_orden" (suponiendo que es la primera columna)
                     String idDetalleOrdenStr = (String) table2.getValueAt(i, 0); // Obtiene el valor como String
                     int id_detalle_orden = Integer.parseInt(idDetalleOrdenStr);
-
                     // Llamar al método de actualización con el id_detalle_orden y el estado seleccionado
                     detalleOrdenDAO.actualizar(id_detalle_orden, estado);
+
                 }
+
 
             }
 
