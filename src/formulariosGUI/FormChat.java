@@ -12,18 +12,30 @@ public class FormChat extends JFrame {
     private JTextArea areaMensajes;
     private JButton botonEnviar;
     private JTextField campoMensaje;
+    private JPanel main;
     private ClienteChat cliente;
 
     public FormChat(String id, String rol) {
+
+
         super("Chat - Cliente: " + id); // Llama al constructor de JFrame
         cliente = new ClienteChat(id, rol); // Inicializa el cliente
         inicializarComponentes(); // Configura los componentes gráficos
+
+
+
+
+    }
+
+    public FormChat() {
+
     }
 
     private void inicializarComponentes() {
         // Configurar ventana
         setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Centrar ventana
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // No cerrar toda la app
         setLayout(new BorderLayout());
 
         // Área de mensajes

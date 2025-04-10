@@ -2,9 +2,14 @@ package formulariosGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FondoPanel extends JPanel {
     private Image imagen;
+
+
+
 
     @Override
     protected void paintComponent(Graphics g) {
