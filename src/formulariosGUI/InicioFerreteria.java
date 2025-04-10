@@ -20,11 +20,10 @@ public class InicioFerreteria {
     public InicioFerreteria() {
 
 
-
-
-
-
-
+        /**
+         * se le da la funcionalidad al boton combobox donde sse se escoge cliente o empleado
+         * lo lleve a ese formulario o traiga mejor dicho
+         */
         comboBox1.addActionListener(new ActionListener() {
 
 
@@ -58,6 +57,9 @@ public class InicioFerreteria {
 
 
         });
+        /**
+         * el boton me cierra el programa el boton de salir
+         */
         salirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +68,9 @@ public class InicioFerreteria {
 
             }
         });
+        /**
+         * me trae el formulario de vender en mi main
+         */
         venderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +79,9 @@ public class InicioFerreteria {
 
             }
         });
+        /**
+         * me  trae el formulario de oder_compra
+         */
         ordenDeCompraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,6 +90,9 @@ public class InicioFerreteria {
 
             }
         });
+        /**
+         * me trae el formulario de los reportes
+         */
         reportesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,6 +100,9 @@ public class InicioFerreteria {
                 reportes.setVisible(true);
             }
         });
+        /**
+         * le damos el tamaño al boton de chat como imagen
+         */
         ImageIcon icon = new ImageIcon(getClass().getResource("/img/ese.png"));
 // Escalamos la imagen al tamaño que queramos (por ejemplo, 40x40 píxeles)
         Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -98,7 +112,9 @@ public class InicioFerreteria {
 
 // Establecemos el icono escalado en el botón
         chatButton.setIcon(scaledIcon);
-
+        /**
+         * abrimos el formulario de chat
+         */
         chatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

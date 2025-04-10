@@ -1,6 +1,11 @@
 package modelos;
 
 public class OrdenCompra {
+    /**
+     * inicializamos los campos de nuestra base de datos de acuerdo a la tabla q se esta manejando
+     * se hace el constructor por el cual va a trabajar y
+     * se hace el setahnget q es para enviar y traer datos
+     */
     private int id_orden;
     private int id_cliente;
     private int id_empleado;

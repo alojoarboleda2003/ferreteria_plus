@@ -69,7 +69,10 @@ public class FormVenta  extends JFrame{
         setResizable(false);  // Establece que la ventana no sea redimensionable
         setLocationRelativeTo(null);
 
-
+        /**
+         * inicializamos las columnas de la tabla productosventa porq sino al mometos
+         * de agregar un producto tambn se agregan las columnas, pero solose debe agregar las filas
+         */
         //inicializamos las columnas de productos ventas aca porque sino se repiten cada vez que agreguemos un producto
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("ID Producto");
@@ -88,6 +91,9 @@ public class FormVenta  extends JFrame{
             }
 
         });
+        /**
+         * mando losd datos de la tabla a unos texfield donde se expica mas en el metodo
+         */
         clickParaSeleccionarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,6 +102,9 @@ public class FormVenta  extends JFrame{
 
             }
         });
+        /**
+         * agregamos el producto seelcina a la tabla productos venta
+         */
         agregarProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,7 +121,9 @@ public class FormVenta  extends JFrame{
             }
         });
 
-
+        /**
+         * se elimina un producto de la compra si ya no se desea
+         */
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,6 +169,9 @@ public class FormVenta  extends JFrame{
 
             }
         });
+        /**
+         * al momneto de hacer click en el boton se guadarn los datos de la venta en la bd
+         */
         cobrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

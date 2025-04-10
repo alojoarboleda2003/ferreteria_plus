@@ -23,6 +23,11 @@ public class DetalleOrdenDAO {
     private double subtotal;
     private String estado;
 
+    /**
+     * actualizamos con este metodo el estado de la orden de compra q seria pendiente,pagada o enviada
+     * @param id_detalle_orden recibe como parametro el id de la orden a actualizar y el campo de estado
+     * @param estado
+     */
     public static void actualizar(int id_detalle_orden, String estado) {
         Connection con = ConexionBD.getConnection();
         String query = "UPDATE detalle_orden_compra SET estado = ? WHERE id_detalle_orden = ?";
@@ -48,6 +53,19 @@ public class DetalleOrdenDAO {
         }
     }
 
+    /**
+     * hasta el momento no esta funcionado por un error ahy
+     * @param id_detalle_orden
+     * @param id_orden
+     * @param id_inventario
+     * @param id_cliente
+     * @param id_empleado
+     * @param nombre_cliente
+     * @param nombre_empleado
+     * @param cantidad
+     * @param subtotal
+     * @param estado
+     */
     public void agregar_cliente(int id_detalle_orden,int id_orden,int id_inventario, int id_cliente, int id_empleado,String nombre_cliente,String nombre_empleado, int cantidad, double subtotal,String estado) {
 
 
@@ -83,6 +101,12 @@ public class DetalleOrdenDAO {
         }
     }
 
+    /**
+     * hasta el momento no esta funcionando
+     * @param id_orden
+     * @param id_cliente
+     * @param id_empleado
+     */
     public void agregar_orden( int id_orden, int id_cliente, int id_empleado) {
 
 

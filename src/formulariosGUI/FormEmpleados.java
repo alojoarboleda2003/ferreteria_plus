@@ -30,6 +30,9 @@ public class FormEmpleados extends JFrame{
 
 
     public FormEmpleados() {
+        /**
+         * le damos el tamaño al formulario cuando se abre en el menu priincipal
+         */
 
         setContentPane(Fempleados);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
@@ -40,7 +43,10 @@ public class FormEmpleados extends JFrame{
 
         obtener_datos();
         textField1.setEnabled(false);
-
+        /**
+         * le damos la funcionalidad al boton de agregar empleado a la bd
+         * con el metodo de agregar de la clase DAO
+         */
         AGREGARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +63,10 @@ public class FormEmpleados extends JFrame{
 
             }
         });
-
+        /**
+         * LE DAMOS LA FUNCIONALIDAD AL BOTON DE MODIFICAR los datos del empleado
+         * con la clase DAO
+         */
         MODIFICARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +135,9 @@ public class FormEmpleados extends JFrame{
 
     ConexionBD conexionBD = new ConexionBD();
 
-
+    /**
+     * metodo para obtener los datos de la bd y los muestre en la tabla
+     */
     public void obtener_datos() {
         DefaultTableModel model = new DefaultTableModel();
 
@@ -156,6 +167,10 @@ public class FormEmpleados extends JFrame{
         }
 
     }
+
+    /**
+     * metodo para buscar a un empleado
+     */
 
     public void buscar_e() {
         DefaultTableModel model = new DefaultTableModel();

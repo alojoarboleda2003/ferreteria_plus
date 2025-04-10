@@ -56,7 +56,10 @@ public class FormOrden extends JFrame {
         obtener_datos();
         agregar_datos_p(idOrden);
 
-
+        /**
+         * le damos esta funcionalidad al boton para q cuando elijas una fila de tabla1
+         * te mustre los datos en la table2
+         */
         verButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +90,9 @@ public class FormOrden extends JFrame {
             }
 
         });
-
+        /**
+         * creamos la tabla1
+         */
         table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -104,7 +109,9 @@ public class FormOrden extends JFrame {
                 }
             }
         });
-
+        /**
+         * creamos la tabla2
+         */
         table2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -140,7 +147,10 @@ public class FormOrden extends JFrame {
 
             }
         });
-
+        /**
+         * le damos la funcionalidad del boton estado donde se actualiza si la compra
+         * pasa de pendiente a pagada o enviada
+         */
         estado2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,6 +192,11 @@ public class FormOrden extends JFrame {
 
             }
         });
+        /**
+         * aqui le damos la funcionalidad del boton generar factura de los campos de la tabla2
+         * y se usa una libreria llamada itextpdf y ya ahy se le da toda la funcionalidad y tambien
+         * se generan consultas sql
+         */
         generarFacturaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent r ) {
@@ -445,13 +460,18 @@ public class FormOrden extends JFrame {
             }
 
         });
+        /**
+         * es un funcionalidad q te permite buscar una orden en especifico con el id como identificado
+         */
         buscarorden.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             buscar_orden();
             }
         });
-
+        /**
+         * esta funcionalidad es para mostrar los ultimos 5 registros de ordenes
+         */
         mostrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

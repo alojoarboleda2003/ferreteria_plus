@@ -4,6 +4,11 @@ import org.w3c.dom.Text;
 
 public class Inventario
 {
+    /**
+     * inicializamos los campos de nuestra base de datos de acuerdo a la tabla q se esta manejando
+     * se hace el constructor por el cual va a trabajar y
+     * se hace el setahnget q es para enviar y traer datos
+     */
     private int id_inventario;
     private String nombres;
     private  String categoria;

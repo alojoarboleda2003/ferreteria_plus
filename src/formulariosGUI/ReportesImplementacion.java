@@ -18,6 +18,10 @@ public class ReportesImplementacion {
         this.tableModel = tableModel;
     }
 
+    /**
+     * este metodo se genera los reportes por perido de tiempo diario,semanal o mensual
+     * @param periodo
+     */
     // Método para generar reporte de ventas por periodo
     public void generarReporteVentasPorPeriodo(String periodo) {
         tableModel.setRowCount(0);
@@ -90,6 +94,11 @@ public class ReportesImplementacion {
         }
     }
 
+    /**
+     * este metodo es el reporte de productos mas vendidos
+     * @param limite
+     */
+
     // Método para generar reporte de productos más vendidos
     public void generarReporteProductosMasVendidos(int limite) {
         tableModel.setRowCount(0);
@@ -131,6 +140,10 @@ public class ReportesImplementacion {
         }
     }
 
+    /**
+     * se genera el reporte del cliente con mas compraas
+     * @param limite
+     */
     // Método para generar reporte de clientes con más compras
     public void generarReporteClientesConMasCompras(int limite) {
         tableModel.setRowCount(0);
@@ -175,6 +188,10 @@ public class ReportesImplementacion {
         }
     }
 
+    /**
+     * se genera el reporte de stock bajo q es cuando un producto esta debajo de la cantidad de 5
+     * @param umbralStock
+     */
     // Método para generar reporte de productos con stock bajo
     public void generarReporteStockBajo(int umbralStock) {
         tableModel.setRowCount(0);
@@ -214,6 +231,10 @@ public class ReportesImplementacion {
         }
     }
 
+    /**
+     * se gera acomodar el nombre de lo q trae la bd segun el reporte selecionado el titulo de las columna
+     * @param columnas
+     */
     // Método auxiliar para configurar las columnas de la tabla según el tipo de reporte
     private void configurarColumnas(String[] columnas) {
         tableModel.setColumnCount(0);

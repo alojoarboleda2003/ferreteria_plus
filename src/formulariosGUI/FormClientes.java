@@ -32,6 +32,9 @@ public class FormClientes extends JFrame{
     ClienteDAO clienteDAO = new ClienteDAO();
 
     public FormClientes() {
+        /**
+         * le damos el tamaño al formulario cuando se abre en el menu principal
+         */
         setContentPane(Fclientes);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
         setSize(1050, 500);  // Establece el tamaño de la ventana
@@ -41,7 +44,10 @@ public class FormClientes extends JFrame{
         obtener_datos();
         textField1.setEnabled(false);
 
-
+        /**
+         * le damos la funcionalidad del boton para q agregue al cliente en la bd y llamamos el metodo de agregar de
+         * la clase DAO del cliente
+         */
         GUARDARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,6 +65,10 @@ public class FormClientes extends JFrame{
 
             }
         });
+        /**
+         * le damos la funcionalidad del boton para q actualice al cliente en la bd y llamamos el metodo de actualizar de
+         * la clase DAO del cliente
+         */
         ACTUALIZARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +87,11 @@ public class FormClientes extends JFrame{
 
             }
         });
+
+        /**
+         * le damos la funcionalidad del boton para q elimine al cliente en la bd y llamamos el metodo de eliminar de
+         * la clase DAO del cliente
+         */
         ELIMINARButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -89,6 +104,9 @@ public class FormClientes extends JFrame{
 
 
         });
+        /**
+         * esta es la tabla donde se van a mostar los campos de la bd
+         */
 
         table1.addMouseListener(new MouseAdapter() {
             @Override
@@ -109,7 +127,9 @@ public class FormClientes extends JFrame{
             }
         });
 
-
+        /**
+         * le ddamos a funcionalidad a un buscador para q me traiga el cliente q yo quiero de mi bd
+         */
         buscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,10 +148,9 @@ public class FormClientes extends JFrame{
     }
 
 
-
-
-
-
+    /**
+     * es un metodo para eliminar los tefield q estan ahy para no haverlo manualmente
+     */
     public void clear() {
             textField1.setText("");
             textField6.setText("");
@@ -143,8 +162,10 @@ public class FormClientes extends JFrame{
 
         ConexionBD conexionBD = new ConexionBD();
 
-
-        public void obtener_datos() {
+    /**
+     * este es el metodo donde obtenemos los datos de la bd y los ponemos en la tabla
+     */
+    public void obtener_datos() {
             DefaultTableModel model = new DefaultTableModel();
 
             model.addColumn("ID Cliente");
@@ -178,7 +199,9 @@ public class FormClientes extends JFrame{
 
         }
 
-
+    /**
+     * es el metodo para bucar al cliente
+     */
     public void buscar_c() {
         DefaultTableModel model = new DefaultTableModel();
 

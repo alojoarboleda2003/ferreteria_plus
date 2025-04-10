@@ -13,6 +13,10 @@ public class ProveedorDAO
 {
     private ConexionBD conexionBD = new ConexionBD();
 
+    /**
+     * creamos el metodo de agragr a un proveedor
+     * @param proveedor recibe la clase proveedor
+     */
     public void agregar(Proveedor proveedor)
     {
         Connection con = conexionBD.getConnection();
@@ -45,6 +49,10 @@ public class ProveedorDAO
 
     }
 
+    /**
+     * metod para eliminar a un proveedor
+     * @param id_proveedor
+     */
     public void eliminar(int id_proveedor)
     {
         Connection con = conexionBD.getConnection();
@@ -72,6 +80,11 @@ public class ProveedorDAO
             e.printStackTrace();
         }
     }
+
+    /**
+     * metodo para actualizar a un proveedor
+     * @param proveedor
+     */
 
     public void actualizar(Proveedor proveedor)
     {

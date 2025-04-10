@@ -13,6 +13,10 @@ public class EmpleadoDAO
 
     private ConexionBD conexionBD = new ConexionBD();
 
+    /**
+     * creamos el metodod de agregar un empleado a la bd
+     * @param empleado se instancia toda la clase empleado
+     */
     public void agregar(Empleado empleado)
     {
         Connection con = conexionBD.getConnection();
@@ -45,6 +49,10 @@ public class EmpleadoDAO
         }
     }
 
+    /**
+     * metodo para eliminar a un empleado
+     * @param id_empleado recibe como parametro la clase del id
+     */
     public void eliminar(int id_empleado)
     {
         Connection con = conexionBD.getConnection();
@@ -73,6 +81,11 @@ public class EmpleadoDAO
             e.printStackTrace();
         }
     }
+
+    /**
+     * metdo para actualizar el empleado
+     * @param empleado recibe como parametro al empleado
+     */
 
     public void actualizar(Empleado empleado)
     {

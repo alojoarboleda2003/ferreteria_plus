@@ -13,7 +13,10 @@ public class InventarioDAO
 {
     private ConexionBD conexionBD = new ConexionBD();
 
-
+    /**
+     * metodo para agregar un producto al invnetario
+     * @param inventario recibe toda la clase de inventario
+     */
     public void agregar(Inventario inventario)
     {
         Connection con = conexionBD.getConnection();
@@ -50,6 +53,11 @@ public class InventarioDAO
 
     }
 
+    /**
+     * este es para eliminar un producto del inventario
+     * @param id_cliente recibe el id como identificador unico
+     */
+
     public void eliminar(int id_cliente)
     {
         Connection con = conexionBD.getConnection();
@@ -78,6 +86,10 @@ public class InventarioDAO
         }
     }
 
+    /**
+     * se actualiza el inventario
+     * @param inventario recibe toda la clase de inventario
+     */
     public void actualizar(Inventario inventario)
     {
         Connection con = conexionBD.getConnection();
