@@ -21,7 +21,6 @@ public class Reportes extends JFrame {
     private JPanel main;
     private JComboBox comboBox1;
     private JTextField fecha;
-    private JTextArea descripcion;
     private JButton exportarAPdfButton;
     private JButton limpiarButton;
     private JButton generarReporteButton;
@@ -342,9 +341,7 @@ public class Reportes extends JFrame {
             int idEmpleado = Integer.parseInt(empleadoSeleccionado.split(" - ")[0]);
             String descripcion1 = "Reporte generado: " + tipoReporte;
 
-            if (!descripcion.getText().trim().isEmpty()) {
-                descripcion1 += ". Notas: " + descripcion.getText();
-            }
+
 
             PreparedStatement stmt = conexion.prepareStatement(
                     "INSERT INTO reportes_generados (tipo_reporte, id_empleado, descripcion) VALUES (?, ?, ?)");
@@ -363,7 +360,7 @@ public class Reportes extends JFrame {
     private void generarReporte() {
         String tipoReporte = (String) comboBox1.getSelectedItem();
         String empleadoSeleccionado = (String) empleadoC.getSelectedItem();
-        String descripcion1 = descripcion.getText();
+
 
         if (empleadoSeleccionado == null || empleadoSeleccionado.equals("Seleccione un empleado")) {
             JOptionPane.showMessageDialog(this, "Por favor seleccione un empleado",
@@ -371,11 +368,7 @@ public class Reportes extends JFrame {
             return;
         }
 
-        if (descripcion1.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese una descripción",
-                    "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+
 
         // Extraer ID de empleado
         int idEmpleado = Integer.parseInt(empleadoSeleccionado.split(" - ")[0]);
@@ -394,10 +387,10 @@ public class Reportes extends JFrame {
             }
 
             PreparedStatement stmt = conexion.prepareStatement(
-                    "INSERT INTO reportes_generados (tipo_reporte, id_empleado, descripcion) VALUES (?, ?, ?)");
+                    "INSERT INTO reportes_generados (tipo_reporte, id_empleado) VALUES (?, ?)");
             stmt.setString(1, tipoReporte);
             stmt.setInt(2, idEmpleado);
-            stmt.setString(3, descripcion1);
+
 
             int filasAfectadas = stmt.executeUpdate();
 
@@ -421,7 +414,7 @@ public class Reportes extends JFrame {
     private void limpiarFormulario() {
         comboBox1.setSelectedIndex(0);
         empleadoC.setSelectedIndex(0);
-        descripcion.setText("");
+        
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         fecha.setText(dateFormat.format(new Date()));
     }

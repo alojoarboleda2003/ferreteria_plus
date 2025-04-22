@@ -27,7 +27,7 @@ public class ReportesImplementacion {
         tableModel.setRowCount(0);
 
         // Configurar columnas específicas para este reporte
-        configurarColumnas(new String[]{"Fecha", "Total Ventas", "Cantidad de Órdenes"});
+        configurarColumnas(new String[]{"Fecha", "Total Ventas"});
 
         try {
             String sql = "";
@@ -36,29 +36,36 @@ public class ReportesImplementacion {
 
             switch (periodo.toLowerCase()) {
                 case "diario":
-                    sql =  "SELECT DATE(fecha) AS fecha, SUM(cantidad) AS cantidad, COUNT(*) AS num_ordenes " +
+                    sql =  "SELECT DATE(fecha) AS fecha, COUNT(*) AS num_ordenes " +
                             "FROM ventas " +
-                            "WHERE fecha >= CURDATE() - INTERVAL 30 DAY " +
+                            "WHERE DATE(fecha) = CURDATE()"+
                             "GROUP BY DATE(fecha) " +
                             "ORDER BY fecha DESC";
                     break;
                 case "semanal":
-                    sql = "SELECT YEARWEEK(fecha, 1) as semana, " +
-                            "CONCAT('Semana ', WEEK(fecha, 1), ' - ', YEAR(fecha)) as periodo, " +
-                            "SUM(cantidad) as cantidad, COUNT(*) as num_ordenes " +
-                            "FROM ventas " +
-                            "WHERE fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 WEEK) " +
-                            "GROUP BY YEARWEEK(fecha, 1) " +
-                            "ORDER BY semana DESC";
+                    sql = "SELECT " +
+                        "YEAR(fecha) AS anio, " +
+                        "WEEK(fecha, 1) AS semana, " +
+                        "CONCAT('Semana ', WEEK(fecha, 1), ' - ', YEAR(fecha)) AS periodo, " +
+                        "COUNT(*) AS num_ordenes " +
+                        "FROM ventas " +
+                        "WHERE DATE(fecha) >= CURDATE() - INTERVAL 1 WEEK " +
+                        "GROUP BY YEAR(fecha), WEEK(fecha, 1) " +
+                        "ORDER BY semana DESC";
+
+
                     break;
                 case "mensual":
-                    sql = "SELECT CONCAT(YEAR(fecha), '-', MONTH(fecha)) as mes, " +
-                            "CONCAT(MONTHNAME(fecha), ' ', YEAR(fecha)) as periodo, " +
-                            "SUM(cantidad) as cantidad, COUNT(*) as num_ordenes " +
-                            "FROM ventas " +
-                            "WHERE fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH) " +
-                            "GROUP BY YEAR(fecha), MONTH(fecha) " +
-                            "ORDER BY YEAR(fecha) DESC, MONTH(fecha) DESC";
+                    sql = "SELECT " +
+                        "YEAR(fecha) AS anio, " +
+                        "MONTH(fecha) AS mes, " +
+                        "CONCAT('Mes ', MONTH(fecha), ' - ', YEAR(fecha)) AS periodo, " +
+                        "COUNT(*) AS num_ordenes " +
+                        "FROM ventas " +
+                        "WHERE DATE(fecha) >= CURDATE() - INTERVAL 1 MONTH " +
+                        "GROUP BY YEAR(fecha), MONTH(fecha) " +
+                        "ORDER BY mes DESC";
+
                     break;
                 default:
                     throw new IllegalArgumentException("Periodo no válido: " + periodo);
@@ -72,13 +79,11 @@ public class ReportesImplementacion {
                 if (periodo.equalsIgnoreCase("diario")) {
                     row = new Object[]{
                             rs.getString("fecha"),
-                            String.format("$%.2f", rs.getDouble("cantidad")),
                             rs.getInt("num_ordenes")
                     };
                 } else {
                     row = new Object[]{
                             rs.getString("periodo"),
-                            String.format("$%.2f", rs.getDouble("cantidad")),
                             rs.getInt("num_ordenes")
                     };
                 }
@@ -108,10 +113,10 @@ public class ReportesImplementacion {
 
         try {
             String sql = "SELECT p.id_inventario, p.nombres, p.categoria, " +
-                    "COUNT(o.precio) as num_ventas, " +
-                    "SUM(o.precio) as total_generado " +
+                    "COUNT(v.id_venta) AS num_ventas, " +
+                    "SUM(v.total) AS total_generado " +
                     "FROM inventario p " +
-                    "JOIN inventario o ON p.id_inventario = o.id_inventario " +
+                    "JOIN ventas v ON p.id_inventario = v.id_inventario " +
                     "GROUP BY p.id_inventario, p.nombres, p.categoria " +
                     "ORDER BY num_ventas DESC, total_generado DESC " +
                     "LIMIT ?";
@@ -154,15 +159,16 @@ public class ReportesImplementacion {
         try {
 
             //  La tabla clientes con id_cliente y nombre
-            String sql = "SELECT c.id_cliente, c.nombre as nombre_cliente, " +
-                    "COUNT(o.id_venta) as num_compras, " +
-                    "SUM(o.cantidad) as total_gastado, " +
-                    "MAX(o.fecha) as ultima_compra " +
+            String sql = "SELECT c.id_cliente, c.nombre AS nombre_cliente, " +
+                    "COUNT(o.id_venta) AS num_compras, " +
+                    "SUM(o.total) AS total_gastado, " +  // Asegúrate de que "total" es el campo que almacena el monto total de la venta.
+                    "MAX(o.fecha) AS ultima_compra " +
                     "FROM cliente c " +
                     "JOIN ventas o ON c.id_cliente = o.id_cliente " +
                     "GROUP BY c.id_cliente, c.nombre " +
                     "ORDER BY num_compras DESC, total_gastado DESC " +
                     "LIMIT ?";
+
 
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, limite);
