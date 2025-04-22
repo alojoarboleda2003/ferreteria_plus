@@ -81,6 +81,7 @@ public class FormOrden extends JFrame {
 
                     // Llamamos al método para mostrar los datos del cliente y encargado
                     mostrar_cliente(idOrden);
+                    mostrar_subtotal(idOrden);
 
 
                 }
@@ -207,6 +208,7 @@ public class FormOrden extends JFrame {
                 ResultSet rs = null;
                 String nombreEmpleado = "";
                 String nombreSubtotal = "";
+                String total = "";
 
 
                 try {
@@ -229,21 +231,22 @@ public class FormOrden extends JFrame {
                         System.out.println("No se encontró el nombre del empleado.");
                     }
 
-                    int row3 = table2.getSelectedRow();  // Obtener la fila seleccionada
-                    Object selectedValue3 = table2.getValueAt(row3, 0);  // Obtener el valor de la primera columna
-                    int table2Value3 = Integer.parseInt(selectedValue3.toString());
-                    // Obtener el nombre del empleado desde la base de datos
-                    con = conexionBD.getConnection();
-                    pst = con.prepareStatement("SELECT subtotal FROM detalle_orden_compra WHERE id_detalle_orden = ?");
-                    pst.setInt(1, table2Value3);  // Establecer el ID del empleado
-                    rs = pst.executeQuery();
+                    // Obtener el total desde el JTextField donde ya se muestra el total
+                    String totalText = totalg.getText();  // Obtener el texto del JTextField
+                    double totalVenta = 0.0;
 
-                    // Verifica si se obtuvo el nombre del empleado
-                    if (rs.next()) {
-                        nombreSubtotal = String.valueOf(Double.parseDouble(rs.getString("subtotal")));
-                    } else {
-                        System.out.println("No se encontró el subtotal de la orden.");
+                    try {
+                        // Verificar si el texto no está vacío
+                        if (!totalText.isEmpty()) {
+                            nombreSubtotal = String.valueOf(Double.parseDouble(totalText));  // Convertir el texto a un valor numérico
+                            System.out.println("El total de la venta es: " + nombreSubtotal);
+                        } else {
+                            System.out.println("No se encontró el total en el JTextField.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error al convertir el total: " + e.getMessage());
                     }
+
 
                     String ruta = System.getProperty("user.home") + "/Desktop/Factura.pdf";
                     PdfWriter.getInstance(document, new FileOutputStream(ruta));
@@ -618,32 +621,29 @@ public class FormOrden extends JFrame {
         try {
             con = conexionBD.getConnection();
 
-            // Consulta SQL con los espacios correctamente colocados
-            String query = "SELECT subtotal FROM detalle_orden_compra WHERE id_detalle_orden = ?";
+            // Consulta SQL para obtener el total de la venta desde la tabla 'ventas'
+            String query = "SELECT SUM(subtotal) * 1.19 AS total_subtotal FROM detalle_orden_compra WHERE id_orden = ?";
 
             // Preparar la sentencia SQL
             stmt = con.prepareStatement(query);
-            stmt.setInt(1, idOrden);  // Usamos idOrden aquí como parámetro numérico
+            stmt.setInt(1, idOrden);  // Usamos el ID de la orden como parámetro para filtrar
             rs = stmt.executeQuery();
 
-            // Verificar si se encuentra el cliente y empleado
             if (rs.next()) {
-                double subtotales = rs.getDouble("subtotal");
+                // Obtener el total de la venta
+                double totalVenta = rs.getDouble("total_subtotal");
 
-
-                // Establecer los valores en los JTextFields
-                totalg.setText(String.valueOf(subtotales));
-
-
+                // Establecer el valor del total en el JTextField
+                totalg.setText(String.valueOf(totalVenta));
             } else {
-                System.out.println("subtotal no encontrados.");
+                System.out.println("No se encontró el total de la venta.");
                 totalg.setText("No encontrado");
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public String obtenerce(Object id_empleado) {
         String nombreEmpleado = null;

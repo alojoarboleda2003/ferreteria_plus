@@ -2,17 +2,20 @@ package formulariosGUI;
 
 import DAO.DetalleOrdenDAO;
 import DAO.InventarioDAO;
+import DAO.VentasDAO;
 import com.toedter.calendar.JDateChooser;
 import conexionBD.ConexionBD;
 import modelos.Cliente;
 import modelos.Empleado;
 import modelos.Inventario;
+import modelos.Ventas;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 public class FormVenta  extends JFrame{
     private JTextField buscador;
@@ -53,9 +56,10 @@ public class FormVenta  extends JFrame{
 
 
 
-
+    java.util.Date fechaActual = new java.util.Date();
     InventarioDAO inventarioDAO = new InventarioDAO();
     DetalleOrdenDAO detalleOrdenDAO = new DetalleOrdenDAO();
+    VentasDAO ventasDAO = new VentasDAO();
     private String buscar_cliente;
 
 
@@ -176,6 +180,15 @@ public class FormVenta  extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int id_inventario = Integer.parseInt(textField2.getText());
+                int id_cliente = Integer.parseInt(idcliente.getText());
+                int id_empleado = Integer.parseInt(idempleado.getText());
+                int id_orden = 2;
+                double total = Double.parseDouble(textField8.getText());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String fecha = sdf.format(fechaActual);
+                Ventas ventas = new Ventas(0,id_inventario,id_orden, id_cliente, id_empleado, total, fecha);
+                ventasDAO.agregar_venta(id_inventario, id_orden,id_cliente, id_empleado, total, fecha);
                 guardar_datos();
 
             }
@@ -313,7 +326,7 @@ public class FormVenta  extends JFrame{
         textField3.setText("");
         textField4.setText("");
         textField1.setText("");
-        textField2.setText("");
+        //textField2.setText("");
         subtotalf.setText("");
         cant_venta.setText("");
 
@@ -422,7 +435,7 @@ public class FormVenta  extends JFrame{
                 //llamamos al metodo de actualizar inventario
                 int idProducto = Integer.parseInt(dato[0]);
                 int cantidadVendida = Integer.parseInt(cantidad);
-                actualizarInventario(idProducto, cantidadVendida);
+
             }
 
         } catch (SQLException e) {
@@ -490,7 +503,7 @@ public class FormVenta  extends JFrame{
             model.setRowCount(0);  // Limpiamos la tabla de la interfaz (si lo deseas)
 
             // Mostrar un mensaje de éxito
-            JOptionPane.showMessageDialog(null, "Venta registrada correctamente.");
+
 
         } catch (SQLException e) {
             e.printStackTrace();

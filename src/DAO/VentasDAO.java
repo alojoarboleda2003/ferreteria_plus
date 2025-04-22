@@ -1,29 +1,50 @@
 package DAO;
 
+import conexionBD.ConexionBD;
+import modelos.DetetalleOrden;
+
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class VentasDAO
+
 {
-    public void insertarVenta()
-    {
-        System.out.println("Insertando venta...");
-    }
+    public void agregar_venta( int id_inventario,int id_orden, int id_cliente, int id_empleado, double total, String fecha) {
+        ConexionBD conexionBD = new ConexionBD();
 
-    public void eliminarVenta()
-    {
-        System.out.println("Eliminando venta...");
-    }
 
-    public void actualizarVenta()
-    {
-        System.out.println("Actualizando venta...");
-    }
+        Connection con = conexionBD.getConnection();
+        PreparedStatement stmt = null;
 
-    public void buscarVenta()
-    {
-        System.out.println("Buscando venta...");
-    }
+        try {
+            // Consulta para insertar el nombre del cliente
+            String query = "INSERT INTO ventas ( id_inventario,id_orden, id_cliente,id_empleado,total,fecha) VALUES ( ?,2,?,?,?,?)";
+            stmt = con.prepareStatement(query);
 
-    public void listarVentas()
-    {
-        System.out.println("Listando ventas...");
+
+            DetetalleOrden detalleOrden = new DetetalleOrden();
+
+            // Usar la instancia aquí
+
+
+            stmt.setInt(1, id_inventario);
+            stmt.setInt(2, id_cliente);
+            stmt.setInt(3, id_empleado);
+            stmt.setDouble(4, total);
+            stmt.setString(5, fecha);
+
+
+
+            int filasInsertadas = stmt.executeUpdate();
+
+            if (filasInsertadas > 0) {
+                JOptionPane.showMessageDialog(null, "Venta insertado correctamente.");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
