@@ -287,7 +287,9 @@ public class Reportes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 limpiarFormulario();
+
             }
+
         });
 
         exportarAPdfButton.addActionListener(new ActionListener() {
@@ -322,6 +324,10 @@ public class Reportes extends JFrame {
                 System.exit(0);
             }
         });
+    }
+    public void clear() {
+        table1.getModel();
+
     }
 
     private void guardarRegistroReporte(String tipoReporte) {
@@ -414,10 +420,13 @@ public class Reportes extends JFrame {
     private void limpiarFormulario() {
         comboBox1.setSelectedIndex(0);
         empleadoC.setSelectedIndex(0);
+        DefaultTableModel model = (DefaultTableModel) table1.getModel();
+        model.setRowCount(0);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         fecha.setText(dateFormat.format(new Date()));
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

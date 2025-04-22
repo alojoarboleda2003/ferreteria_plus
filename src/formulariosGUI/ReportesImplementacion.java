@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import conexionBD.ConexionBD;
+
+import java.io.FileOutputStream;
 
 public class ReportesImplementacion {
     private Connection conexion;
@@ -254,8 +259,142 @@ public class ReportesImplementacion {
         // Implementación de la exportación a PDF
         // Este es un método que se completaría con una biblioteca como iText o JasperReports
         // Esta por implementar
-        JOptionPane.showMessageDialog(null,
-                "La exportación a PDF para el reporte " + tipoReporte + " será implementada con una biblioteca como iText.",
-                "Exportación a PDF", JOptionPane.INFORMATION_MESSAGE);
+        Document document = new Document();
+
+
+        try {
+
+            // Ruta y nombre del archivo
+            String ruta = System.getProperty("user.home") + "/Desktop/"+tipoReporte+".pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(ruta));
+            document.open();
+
+            // Fuente
+            Font tituloFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font contenidoFont = new Font(Font.FontFamily.HELVETICA, 12);
+
+            // Título
+            Paragraph titulo = new Paragraph("Reporte - " + tipoReporte.toUpperCase(), tituloFont);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo);
+            document.add(new Paragraph(" ")); // Espacio
+            PdfWriter.getInstance(document, new FileOutputStream(ruta));
+            document.open();
+
+            // Cargar una imagen desde el archivo
+            String rutaImagen = "pdf/logo.jpg"; // Ruta de la imagen
+            Image imagen = Image.getInstance(rutaImagen);
+
+            // Ajustar el tamaño de la imagen (opcional)
+            imagen.scaleToFit(200, 200); // Ajustar la imagen a un tamaño de 200x200 píxeles
+
+            // Centrar la imagen en la página
+            imagen.setAlignment(Image.ALIGN_CENTER);
+
+            // Agregar la imagen al documento
+            document.add(imagen);
+
+            // Agregar un título
+            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font fontinit = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+            Paragraph ln = new Paragraph("--------------------------------------------------------------------------", fontinit);
+            //Paragraph titulo = new Paragraph("Ferreteria Style True", fontTitulo);
+            Paragraph init = new Paragraph("Reporte creado por la empresa ferreria style true", fontinit);
+
+            Paragraph la= new Paragraph("--------------------------------------------------------------------------", fontinit);
+
+            //CENTRAR
+            ln.setAlignment(Element.ALIGN_CENTER);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            init.setAlignment(Element.ALIGN_CENTER);
+            la.setAlignment(Element.ALIGN_CENTER);
+
+            //MOSTAR
+            document.add(ln);
+            document.add(titulo);
+            document.add(init);
+            document.add(la);
+
+            // Crear la fuente para el "ENCARGADO:" en negrita
+            Font fontNegrita = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+            // Crear la fuente para el nombre del empleado en normal
+            Font fontNormal = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+
+            // Crear el párrafo del encargado con dos partes
+            Paragraph encargado = new Paragraph();
+            encargado.add(new Chunk("Reporte Generado por: "+ "alonso", fontNegrita));
+            //encargado.add(new Chunk(nombreEmpleado, fontNormal));
+
+            encargado.setAlignment(Element.ALIGN_CENTER);
+            document.add(encargado);
+
+
+
+            // Agregar un espacio después del título
+            document.add(Chunk.NEWLINE);
+            Paragraph titulo1 = new Paragraph("Reporte", fontTitulo);
+            titulo1.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo1);
+
+            // Agregar un espacio después del título
+            document.add(Chunk.NEWLINE);
+
+
+            PdfPTable tabla = new PdfPTable(5);
+            float[] anchos = {4f, 4f, 4f, 4f, 4f};  // Anchos relativos de las columnas
+            tabla.setWidths(anchos);
+
+            // Definir las fuentes
+            Font fontHeader = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+            Font fontCell = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
+
+            // Agregar la fila de encabezado con un color de fondo
+            PdfPCell cell = new PdfPCell(new Phrase("Id Detalle Orden", fontHeader));
+            cell.setBorderColor(BaseColor.BLACK);  // Color de borde
+            cell.setBorderWidth(1f);
+            cell.setBackgroundColor(BaseColor.DARK_GRAY); // Color de fondo
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setFixedHeight(30f);// Alineación centrada
+
+            tabla.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("Nombre Producto", fontHeader));
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBorderColor(BaseColor.BLACK);  // Color de borde
+            cell.setBorderWidth(1f);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("Cantidad", fontHeader));
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBorderColor(BaseColor.BLACK);  // Color de borde
+            cell.setBorderWidth(1f);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("Subtotal", fontHeader));
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBorderColor(BaseColor.BLACK);  // Color de borde
+            cell.setBorderWidth(1f);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cell);
+
+            cell = new PdfPCell(new Phrase("Estado", fontHeader));
+            cell.setBackgroundColor(BaseColor.DARK_GRAY);
+            cell.setBorderColor(BaseColor.BLACK);  // Color de borde
+            cell.setBorderWidth(1f);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            tabla.addCell(cell);
+            document.add(tabla);
+            document.close();
+
+            JOptionPane.showMessageDialog(null, "PDF generado correctamente:\n" + ruta,
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al generar el PDF:\n" + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
