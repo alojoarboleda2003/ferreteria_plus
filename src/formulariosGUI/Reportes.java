@@ -414,7 +414,7 @@ public class Reportes extends JFrame {
     private void limpiarFormulario() {
         comboBox1.setSelectedIndex(0);
         empleadoC.setSelectedIndex(0);
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         fecha.setText(dateFormat.format(new Date()));
     }

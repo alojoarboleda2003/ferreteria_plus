@@ -40,7 +40,7 @@ public class VentasDAO
             int filasInsertadas = stmt.executeUpdate();
 
             if (filasInsertadas > 0) {
-                JOptionPane.showMessageDialog(null, "Venta insertado correctamente.");
+                JOptionPane.showMessageDialog(null, "Venta Realizada Exitosamente.");
 
             }
         } catch (SQLException e) {

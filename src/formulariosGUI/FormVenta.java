@@ -179,7 +179,7 @@ public class FormVenta  extends JFrame{
         cobrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                guardar_datos();
                 int id_inventario = Integer.parseInt(textField2.getText());
                 int id_cliente = Integer.parseInt(idcliente.getText());
                 int id_empleado = Integer.parseInt(idempleado.getText());
@@ -189,7 +189,7 @@ public class FormVenta  extends JFrame{
                 String fecha = sdf.format(fechaActual);
                 Ventas ventas = new Ventas(0,id_inventario,id_orden, id_cliente, id_empleado, total, fecha);
                 ventasDAO.agregar_venta(id_inventario, id_orden,id_cliente, id_empleado, total, fecha);
-                guardar_datos();
+
 
             }
         });
@@ -497,6 +497,7 @@ public class FormVenta  extends JFrame{
 
                 // Actualizamos el inventario después de agregar la venta
                 actualizarInventario(id_inventario, cantidad); // Reducimos la cantidad en el inventario
+
             }
 
             // Si todo salió bien, puedes limpiar la tabla o realizar alguna otra acción
@@ -507,13 +508,14 @@ public class FormVenta  extends JFrame{
 
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
 
 
     }
 
 
-    public void actualizarInventario(int idProducto, int cantidadVendida) {
+    public boolean actualizarInventario(int idProducto, int cantidadVendida) {
         Connection con = conexionBD.getConnection();
         PreparedStatement stmt = null;
         try {
@@ -538,19 +540,22 @@ public class FormVenta  extends JFrame{
                 if (rs.next()) {
                     int cantRestante = rs.getInt("cant_disponible");
                     if (cantRestante < 5) {
-                        JOptionPane.showMessageDialog(null,"⚠️ Alerta: el inventario del producto ID " + idProducto +
+                        JOptionPane.showMessageDialog(null," Alerta: el inventario del producto ID " + idProducto +
                                 " está por agotarse. Cantidad disponible: " + cantRestante);
                     }
                 }
 
                 rs.close();
                 checkStmt.close();
+                return true;
             } else {
-                System.out.println("No hay suficiente inventario para realizar la venta.");
+                JOptionPane.showMessageDialog(null,"No hay suficiente inventario para realizar la venta.");
+                return false;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         } finally {
             try {
                 if (stmt != null) stmt.close();
@@ -647,8 +652,8 @@ public class FormVenta  extends JFrame{
                 nombreE.setText(nombree);
             } else {
 
-                System.out.println("Cliente no encontrado.");
-                nombreE.setText("Cliente no encontrado");
+                System.out.println("Empleado no encontrado.");
+                nombreE.setText("Empleado no encontrado");
             }
         } catch (SQLException e) {
 
