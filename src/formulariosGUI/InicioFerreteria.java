@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class InicioFerreteria {
+public class InicioFerreteria extends JFrame {
     private JPanel main;
     private JComboBox comboBox1;
     private JButton venderButton;
@@ -18,6 +18,11 @@ public class InicioFerreteria {
     private JDesktopPane container;
 
     public InicioFerreteria() {
+        setContentPane(main);  // Asegúrate de que 'Fclientes' sea el panel que contiene todos los componentes
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo esta ventana al cerrarla
+        setSize(1900, 800);  // Establece el tamaño de la ventana
+        setResizable(false);  // Establece que la ventana no sea redimensionable
+        setLocationRelativeTo(null);
 
 
         /**
@@ -125,11 +130,7 @@ public class InicioFerreteria {
         });
     }
 
-    private void setTitle(String ventanaPrincipal) {
-    }
 
-    private void setDefaultCloseOperation(int exitOnClose) {
-    }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("InicioFerreteria");
