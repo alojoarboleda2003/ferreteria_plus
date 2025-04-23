@@ -15,12 +15,11 @@ public class Login extends JFrame{
     private JButton ingresarButton;
     private JButton xButton;
 
-    ImageIcon icon = new ImageIcon(getClass().getResource("/img/unnamed.jpg"));
-    // Escalamos la imagen al tamaño que queramos (por ejemplo, 40x40 píxeles)
-    Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 
 
     public Login() {
+
+
         ingreseSuUsuarioTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +49,7 @@ public class Login extends JFrame{
                     passwordField1.setForeground(Color.gray);
                 }
                 if (ingreseSuUsuarioTextField.getText().isEmpty()) {
-                    ingreseSuUsuarioTextField.setText("");
+                    ingreseSuUsuarioTextField.setText("Ingrese su Usuario");
                     ingreseSuUsuarioTextField.setForeground(Color.black);
                 }
 
@@ -73,8 +72,8 @@ public class Login extends JFrame{
 
                     // JOptionPane.showMessageDialog(null,"intento de login con los datos \n Usuario: " + ingreseSuUsuarioTextField.getText() + "\n Contraseña: " +String.valueOf(passwordField1.getPassword()));
 
-                }else {
-                    JOptionPane.showMessageDialog(null,"Error, Usuario o Contraseña Incorrectos");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error, Usuario o Contraseña Incorrectos");
                 }
             }
         });
@@ -85,8 +84,10 @@ public class Login extends JFrame{
         frame.setContentPane(new Login().main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setVisible(true);
         frame.setSize(700, 500);
+        frame.setLocationRelativeTo(null); // 👉 Centrar la ventana
         frame.setResizable(false);
+        frame.setVisible(true);
+
     }
 }
