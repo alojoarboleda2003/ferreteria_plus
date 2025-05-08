@@ -73,7 +73,7 @@ public class Login extends JFrame{
                     // JOptionPane.showMessageDialog(null,"intento de login con los datos \n Usuario: " + ingreseSuUsuarioTextField.getText() + "\n Contraseña: " +String.valueOf(passwordField1.getPassword()));
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error, Usuario o Contraseña Incorrectos");
+                    JOptionPane.showMessageDialog(null, "Error, Usuario o Contraseña Incorrectos \n ¡Vuelva a Intentarlo!");
                 }
             }
         });

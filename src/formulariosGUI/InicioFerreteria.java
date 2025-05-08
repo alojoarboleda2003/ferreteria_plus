@@ -108,7 +108,7 @@ public class InicioFerreteria extends JFrame {
         /**
          * le damos el tamaño al boton de chat como imagen
          */
-        ImageIcon icon = new ImageIcon(getClass().getResource("/img/ese.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/img/chat.png"));
 // Escalamos la imagen al tamaño que queramos (por ejemplo, 40x40 píxeles)
         Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
 
